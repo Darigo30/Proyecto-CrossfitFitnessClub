@@ -1,0 +1,115 @@
+body{
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+h1, h2, h3, h4{
+    font-family: 'Open Sans', sans-serif;
+}
+h1{
+    font-size: 40px;
+}
+h2{
+    font-size: 35px;
+}
+h3{
+    font-size: 25px;
+}
+h4{
+    font-size: 20px;
+}
+p{
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+}
+.calc{
+    font-size: 14px;
+    line-height: 30px;
+    color: #555555;
+    font-weight: 300;
+    width: 100%;
+    height: 55px;
+    background: #f8f8f8;
+    border: 0;
+  }
+  .calc:focus {
+      color: #495057;
+      background-color: #e5e8f1;
+      border: none;
+      outline: 0;
+      -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 44, 54, 0.288);
+      box-shadow: 0 0 0 0.2rem rgba(255, 44, 54, 0.288);
+  }
+  .btn-calc{
+    background: #f30b47;
+    padding: 15px;
+    color: #fff;
+    width: 100%;
+    margin: 0 auto;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0px;
+  }
+  .btn-reser{
+    background: #082846;
+    padding: 6px;
+    color: #fff;
+    margin: 0 auto;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0px;
+    text-decoration: none;
+  }
+  .btn-pagar{
+    background: #f30b47;
+    display: block;
+    width: 50%;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+  }
+  .btn-pagar:hover{
+    text-decoration: none;
+    color: #fff;
+  }
+  .btn-reser:hover{
+    text-decoration: none;
+    color: #fff;
+  }
+  .btn-disa{
+    background: #f30b47;
+    padding: 6px;
+    color: #fff;
+    margin: 0 auto;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0px;
+    text-decoration: none;
+  }
+  .btn-disa:hover{
+    text-decoration: none;
+    color: #fff;
+  }
+
+  /*MEDIAS QUERYS*/
+@media (max-width: 1300px) {
+  .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 10px 15px;}
+}
+@media (max-width: 1200px) {
+  .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 10px;font-size: 11px;}
+  h3.txt-slider[data-v-fae5bece] {top: -210px;}
+}
+@media (max-width: 991px) {
+  .top-address[data-v-65af85a3] {display: none;}
+  .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 6px;font-size: 15px;}
+  .navbar-nav{flex-direction: row;}
+  .carousel-control-prev, .carousel-control-next{top: 0;}
+}
+
+
