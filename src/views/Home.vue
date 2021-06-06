@@ -365,7 +365,7 @@ span {
   .feature-text{
     margin-left: 0;
   }
-   h3.txt-slider[data-v-fae5bece] {position: initial;font-size: 25px;}
+   h3.txt-slider{position: initial;font-size: 25px;}
 }
 
 </style>

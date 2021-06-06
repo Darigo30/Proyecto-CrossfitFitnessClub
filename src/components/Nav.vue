@@ -339,5 +339,8 @@ export default {
   .become-member a{
     padding: 14px 20px;
   }
+  .top-address{
+    display: none;
+  }
 }
 </style>
