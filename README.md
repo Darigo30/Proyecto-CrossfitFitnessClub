@@ -8,6 +8,8 @@ _Este proyecto trata de crear un ecommerce para compra de planes de Crossfit.. A
 * Tipografías: - Open Sans para los titulos y Lato para los párrafos y textos con tipografia regular.
 * Colores principales: - #f30b47 / #082846
 
+## Link del proyecto: 💻
+[https://proyecto-crossfit.web.app/](https://proyecto-crossfit.web.app/)
 ## Project setup
 ```
 npm install
