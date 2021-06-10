@@ -124,7 +124,8 @@ span {
   text-align: center;
   line-height: 55px;
 }
-.col-4, .col-8 {
-    width:100%;
+.col-4,
+.col-8 {
+  width: 100%;
 }
 </style>

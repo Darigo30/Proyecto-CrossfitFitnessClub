@@ -17,141 +17,140 @@
       <b-row>
         <b-col>
           <div class="table-responsive">
-          <div class="training-schedule-cover">
-            <h3 class="training-schedule-top">7-11 Junio, 2021</h3>
-            <div class="training-schedule-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Lunes</th>
-                    <th>Martes</th>
-                    <th>Miércoles</th>
-                    <th>Jueves</th>
-                    <th>Viernes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>6.30am</td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4 class="disabled">Sin cupos</h4>
-                    </td>
-                    <td>
-                      <h4>1/12</h4>
-                      <a class="btn-disa">Cancelar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>7.45am</td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>9.00am</td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>18.30pm</td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>19.15pm</td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                    <td>
-                      <h4>0/12</h4>
-                      <a class="btn-reser">Reservar</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="training-schedule-cover">
+              <h3 class="training-schedule-top">7-11 Junio, 2021</h3>
+              <div class="training-schedule-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Lunes</th>
+                      <th>Martes</th>
+                      <th>Miércoles</th>
+                      <th>Jueves</th>
+                      <th>Viernes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>6.30am</td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4 class="disabled">Sin cupos</h4>
+                      </td>
+                      <td>
+                        <h4>1/12</h4>
+                        <a class="btn-disa">Cancelar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>7.45am</td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>9.00am</td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>18.30pm</td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>19.15pm</td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                      <td>
+                        <h4>0/12</h4>
+                        <a class="btn-reser">Reservar</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          </div>
-
         </b-col>
       </b-row>
     </b-container>

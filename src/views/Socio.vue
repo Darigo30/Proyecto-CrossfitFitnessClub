@@ -1,139 +1,47 @@
 <template>
-    <div class="socio">
-        <header class="about-bg">
-            <b-container>
-                <b-row>
-                    <b-col cols="12">
-                        <div class="site-heading">
-                        <h1 class="text-white text-uppercase fst-italic">
-                            Quiero ser <span>Socio</span>
-                        </h1>
-                        </div>
-                    </b-col>
-                </b-row>
-            </b-container>
-        </header>
-        <section class="bg-prices py-5">
-            <b-container>
-                <b-row>
-                    <b-col>
-                        <h2 class="titulos text-uppercase text-center fst-italic">
-                        Estos son <span>nuestros planes</span>
-                        </h2>
-                        <p class="text-center">
-                        Adquiere nuestros planes por un excelente precio. ¡La inscrición
-                        es gratis si compras vía web!
-                        </p>
-                    </b-col>
-                </b-row>
-                <b-row class="my-3">
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                    <b-col class="card-int-price" sm md="4">
-                        <div class="inner-box">
-                        <div class="image">
-                            <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-                        </div>
-                        <div class="lower-content">
-                            <h3>2 x Semana $46.000</h3>
-                            <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                            <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                            <div class="mt-5">
-                            <a class="btn-agregar"
-                                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                            ></a>
-                            </div>
-                        </div>
-                        </div>
-                    </b-col>
-                </b-row>
-            </b-container>
-        </section>
-    </div>
+  <div class="socio">
+    <header class="about-bg">
+      <b-container>
+        <b-row>
+          <b-col cols="12">
+            <div class="site-heading">
+              <h1 class="text-white text-uppercase fst-italic">
+                Quiero ser <span>Socio</span>
+              </h1>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </header>
+    <section class="bg-prices py-5">
+      <b-container>
+        <b-row>
+          <b-col>
+            <h2 class="titulos text-uppercase text-center fst-italic">
+              Estos son <span>nuestros planes</span>
+            </h2>
+            <p class="text-center">
+              Adquiere nuestros planes por un excelente precio. ¡La inscrición
+              es gratis si compras vía web!
+            </p>
+          </b-col>
+        </b-row>
+        <Planes CantidadMostar="all" />
+      </b-container>
+    </section>
+  </div>
 </template>
+<script>
+import Planes from "@/components/Planes.vue";
+
+export default {
+  name: "Home",
+  components: {
+    Planes,
+  },
+};
+</script>
+
 <style scoped>
 .about-bg {
   padding: 170px 0 170px;
@@ -233,10 +141,21 @@ span {
   text-transform: uppercase;
 }
 
-@media (max-width: 1200px) {.card-int-price .inner-box{padding: 0;margin-bottom: 25px;}
-  .card-int-price .inner-box::before{width: 100%;height: auto;background: none;}
-  .image img{width: 100%;}
-  .btn-agregar{font-size: 11px;}
+@media (max-width: 1200px) {
+  .card-int-price .inner-box {
+    padding: 0;
+    margin-bottom: 25px;
+  }
+  .card-int-price .inner-box::before {
+    width: 100%;
+    height: auto;
+    background: none;
+  }
+  .image img {
+    width: 100%;
+  }
+  .btn-agregar {
+    font-size: 11px;
+  }
 }
-
 </style>

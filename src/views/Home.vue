@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Slider -->
     <div class="slider">
       <b-carousel
         id="carousel-fade"
@@ -17,10 +18,13 @@
           <h3 class="txt-slider">Adquiere nuestros planes</h3>
         </b-carousel-slide>
         <b-carousel-slide :img-src="require('../assets/slider-3.jpg')">
-          <h3 class="txt-slider">Ponte en forma con nosotros</h3></b-carousel-slide>
-        </b-carousel
-      >
+          <h3 class="txt-slider">
+            Ponte en forma con nosotros
+          </h3></b-carousel-slide
+        >
+      </b-carousel>
     </div>
+    <!-- Intro -->
     <b-container class="my-5">
       <b-row>
         <b-col class="mb-5" cols="12">
@@ -86,6 +90,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <!-- Planes-->
     <section class="bg-prices py-5">
       <b-container>
         <b-row>
@@ -99,58 +104,7 @@
             </p>
           </b-col>
         </b-row>
-        <b-row class="my-3">
-          <b-col class="card-int-price" sm>
-            <div class="inner-box">
-              <div class="image">
-                <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-              </div>
-              <div class="lower-content">
-                <h3>2 x Semana $46.000</h3>
-                <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                <div class="mt-5">
-                  <a class="btn-agregar"
-                    >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-          </b-col>
-          <b-col class="card-int-price" sm>
-            <div class="inner-box">
-              <div class="image">
-                <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-              </div>
-              <div class="lower-content">
-                <h3>2 x Semana $46.000</h3>
-                <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                <div class="mt-5">
-                  <a class="btn-agregar"
-                    >Agregar al Carro <i class="fas fa-shopping-cart"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-          </b-col>
-          <b-col class="card-int-price" sm>
-            <div class="inner-box">
-              <div class="image">
-                <img src="../assets/feature-3.jpg" alt="Imagen Plan" />
-              </div>
-              <div class="lower-content">
-                <h3>2 x Semana $46.000</h3>
-                <p><i class="fas fa-check-circle"></i>Valor Mensual</p>
-                <p><i class="fas fa-check-circle"></i>2 Clases por semana</p>
-                <div class="mt-5">
-                  <a class="btn-agregar">Agregar al Carro <i class="fas fa-shopping-cart"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
+        <Planes CantidadMostar="3"/>
         <b-row class="pt-4">
           <b-col>
             <router-link class="btn-vert text-center" to="/socio">Ver todos los planes</router-link>
@@ -158,50 +112,25 @@
         </b-row>
       </b-container>
     </section>
+    <!--Calcular indice de masa corporal -->
     <section class="py-5">
       <b-container>
-        <b-row class="d-flex align-items-center">
-          <b-col  cols-sm="4" cols-md="4" cols-lg="4">
-            <h4 class="cual">¿Cuál es tu IBM?</h4>
-            <h3 class="text-uppercase fst-italic">
-              Calcula tu indice de masa corporal
-            </h3>
-          </b-col>
-          <b-col cols-sm="8" cols-md="8" cols-lg="8">
-            <div class="row row-cols-lg-auto g-3 align-items-center">
-              <div class="col-12">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control calc"
-                    id="inlineFormInputGroupUsername"
-                    placeholder="Altura / cm"
-                  />
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control calc"
-                    id="inlineFormInputGroupUsername"
-                    placeholder="Peso / kg"
-                  />
-                </div>
-              </div>
-              <div class="col-12">
-                <button class="btn-calc">Calcular</button>
-              </div>
-            </div>
-          </b-col>
-        </b-row>
+        <Calculadoraibm />
       </b-container>
     </section>
   </div>
 </template>
+
 <script>
+import Planes from "@/components/Planes.vue";
+import Calculadoraibm from "@/components/Calculadoraibm.vue";
+
 export default {
   name: "Home",
+  components: {
+    Planes,
+    Calculadoraibm,
+  },
 };
 </script>
 <style scoped>
@@ -239,110 +168,6 @@ span {
 .tit-le {
   margin-left: 15px;
 }
-.feature-item {
-  display: flex;
-}
-.feature-text {
-  margin-left: 15px;
-}
-.feature-text h3 {
-  font-size: 30px;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #001e3c;
-  transition: all 0.3s;
-}
-.feature-text:hover h3 {
-  color: #f30a46;
-}
-.feature-text p {
-  font-size: 14px;
-}
-.bg-prices {
-  background: #fbfbfb;
-}
-.card-int-price .inner-box::before {
-  position: absolute;
-  content: "";
-  left: 0px;
-  top: 60px;
-  right: 0px;
-  bottom: 0px;
-  width: 370px;
-  height: 391px;
-  background: url(../assets/borde-ext.png) no-repeat;
-}
-.card-int-price .inner-box .image .icon-box {
-  position: absolute;
-  right: 40px;
-  bottom: -35px;
-  width: 70px;
-  height: 70px;
-  color: #ff0000;
-  font-size: 36px;
-  line-height: 70px;
-  border-radius: 50px;
-  text-align: center;
-  background-color: #ffffff;
-  -webkit-transition: all 300ms ease;
-  -ms-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  transition: all 300ms ease;
-}
-.card-int-price .inner-box .image .icon-box {
-  color: #ff0000;
-  font-size: 36px;
-  line-height: 70px;
-  text-align: center;
-}
-.card-int-price .inner-box .lower-content {
-  position: relative;
-  padding-top: 22px;
-}
-.card-int-price .inner-box {
-  position: relative;
-  padding: 0px 15px 32px;
-}
-.card-int-price .inner-box .lower-content .title {
-  position: relative;
-  color: #ffffff;
-  font-size: 14px;
-  text-transform: uppercase;
-  font-family: "Roboto", sans-serif;
-}
-.card-int-price .inner-box .lower-content h4 {
-  position: relative;
-  line-height: 1.3em;
-  font-weight: 700;
-  margin-top: 5px;
-  text-transform: uppercase;
-}
-.image img {
-  position: relative;
-}
-.btn-agregar {
-  background: #001e3c;
-  padding: 15px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-.svg-inline--fa.fa-check-circle.fa-w-16 {
-  margin-right: 15px;
-}
-.btn-vert {
-  background: #f30b47;
-  padding: 15px;
-  text-decoration: none;
-  color: #fff;
-  width: 50%;
-  margin: 0 auto;
-  display: block;
-  font-weight: bold;
-  text-transform: uppercase;
-}
 .cual {
   color: #f30b47;
 }
@@ -350,22 +175,4 @@ span {
   color: #f30b47;
   font-style: italic;
 }
-@media (max-width: 1200px) {.card-int-price .inner-box{padding: 0;margin-bottom: 25px;}
-  .card-int-price .inner-box::before{width: 100%;height: auto;background: none;}
-  .image img{width: 100%;}
-  .btn-agregar{font-size: 11px;}
-}
-@media (max-width: 767px) {
-  .btn-vert{
-    width: 100%;
-  }
-  .feature-item{
-    display: initial;
-  }
-  .feature-text{
-    margin-left: 0;
-  }
-   h3.txt-slider{position: initial;font-size: 25px;}
-}
-
 </style>

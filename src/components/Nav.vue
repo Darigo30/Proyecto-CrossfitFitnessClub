@@ -32,7 +32,9 @@
     </div>
     <nav class="navbar navbar-expand-lg text-white">
       <div class="container-fluid cont-nav">
-        <router-link class="navbar-brand" to="/"><img class="logo" src="../assets/logo.png" alt="Logo Crossfit" /></router-link>
+        <router-link class="navbar-brand" to="/"
+          ><img class="logo" src="../assets/logo.png" alt="Logo Crossfit"
+        /></router-link>
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template #default="{ expanded }">
             <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
@@ -43,27 +45,47 @@
         <b-collapse id="navbar-toggle-collapse" is-nav>
           <b-navbar-nav>
             <div class="d-flex">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-uppercase text-white">
+              <ul
+                class="
+                  navbar-nav
+                  me-auto
+                  mb-2 mb-lg-0
+                  text-uppercase text-white
+                "
+              >
                 <li class="nav-item">
-                  <router-link class="nav-link active" to="/">Inicio</router-link>
+                  <router-link class="nav-link active" to="/"
+                    >Inicio</router-link
+                  >
                 </li>
                 <li class="nav-item">
-                  <router-link class="nav-link" to="/acercade">Acerca de</router-link>
+                  <router-link class="nav-link" to="/acercade"
+                    >Acerca de</router-link
+                  >
                 </li>
                 <li class="nav-item">
-                  <router-link class="nav-link" to="/contacto">Contacto</router-link>
+                  <router-link class="nav-link" to="/contacto"
+                    >Contacto</router-link
+                  >
                 </li>
                 <li class="nav-item">
-                  <router-link class="nav-link agend" to="/agendar">Agenda Clases</router-link>
+                  <router-link class="nav-link agend" to="/agendar"
+                    >Agenda Clases</router-link
+                  >
                 </li>
               </ul>
             </div>
             <div class="text-right p-0 nobile-position">
               <div class="shopping-bag">
-                <router-link class="cart" to="/carrito"><i class="fas fa-shopping-bag"></i><span>0</span></router-link>
+                <router-link class="cart" to="/carrito"
+                  ><i class="fas fa-shopping-bag"></i
+                  ><span>0</span></router-link
+                >
               </div>
               <div class="icono-login">
-                <router-link class="log" to="/login"><i class="fas fa-user-alt"></i></router-link>
+                <router-link class="log" to="/login"
+                  ><i class="fas fa-user-alt"></i
+                ></router-link>
               </div>
               <div class="become-member">
                 <router-link to="/socio">Quiero ser Socio</router-link>
@@ -113,7 +135,6 @@
         </div> -->
       </div>
     </nav>
-    
   </div>
 </template>
 
@@ -129,7 +150,7 @@ export default {
   padding-right: 0;
 }
 .nav-item {
-    margin: 25px 10px;
+  margin: 25px 10px;
 }
 .logo {
   width: 70%;
@@ -294,52 +315,50 @@ export default {
   width: 100%;
   z-index: 9;
 }
-.navbar-collapse{
+.navbar-collapse {
   flex-grow: 0;
 }
 @media (max-width: 1199px) {
   .nobile-position {
     width: 100%;
-}
-.navbar-toggler {
-  background-color: #fff;
-  border: 1px solid #f30b47;
-  margin-right: 25px;
-
-}
-.b-icon.bi {
+  }
+  .navbar-toggler {
+    background-color: #fff;
+    border: 1px solid #f30b47;
+    margin-right: 25px;
+  }
+  .b-icon.bi {
     color: #f30b47;
-}
-
+  }
 }
 @media (max-width: 991px) {
   .header {
     position: initial;
     background: #082846;
-}
-  .logo{
+  }
+  .logo {
     margin-left: 0;
     max-width: 160px;
     margin: 15px;
   }
   .container-fluid.cont-nav {
-      display: flex;
+    display: flex;
   }
   .navbar-nav {
-      flex-direction: column;
+    flex-direction: column;
   }
-  .log{
+  .log {
     padding: 36px 20px;
     background-color: transparent;
   }
-  .become-member{
+  .become-member {
     clip-path: none;
     margin-left: 15px;
   }
-  .become-member a{
+  .become-member a {
     padding: 14px 20px;
   }
-  .top-address{
+  .top-address {
     display: none;
   }
 }

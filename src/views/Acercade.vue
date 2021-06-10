@@ -98,18 +98,18 @@ span {
   text-align: justify;
 }
 @media (max-width: 767px) {
-  .media{
+  .media {
     display: block;
   }
-  .about-left-text{
+  .about-left-text {
     width: 100%;
-     padding: 40px 10px;
+    padding: 40px 10px;
   }
-  .about-left-img{
+  .about-left-img {
     width: 100%;
   }
-  .about-right-text{
+  .about-right-text {
     padding: 30px 0 0;
-}
+  }
 }
 </style>
