@@ -18,7 +18,7 @@
         <b-col>
           <div class="table-responsive">
             <div class="training-schedule-cover">
-              <h3 class="training-schedule-top">7-11 Junio, 2021</h3>
+              <h3 class="training-schedule-top">{{rangeDateToShow}}</h3>
               <div class="training-schedule-table">
                 <table>
                   <thead>
@@ -156,6 +156,60 @@
     </b-container>
   </div>
 </template>
+<script>
+
+export default {
+    name: 'Agenda',
+    data() {
+      return {
+        availablesDates: []
+      }
+    },
+    methods: {
+      getAvailablesDates() {
+        let fechas = [];
+        let fechaActual = new Date();
+        fechaActual.setDate(fechaActual.getDate() - fechaActual.getDay());
+        for(let i = 1; i < 6;i++){
+            let dateToAdd = new Date();
+            dateToAdd.setDate(fechaActual.getDate() + i);
+            fechas.push(dateToAdd);
+        }
+        return fechas;
+      }
+    },
+    computed: {
+      
+      rangeDateToShow(){
+        let initDate = this.availablesDates[0];
+        let endDate = this.availablesDates[this.availablesDates.length - 1]
+        let month = initDate.getMonth() + 1;
+        let monthName = '';
+        switch(month){
+          case 1: monthName = 'Enero';break;
+          case 2: monthName = 'Febrero';break;
+          case 3: monthName ='Marzo';break;
+          case 4: monthName ='Abril';break;
+          case 5: monthName ='Mayo';break;
+          case 6: monthName ='Junio';break;
+          case 7: monthName ='Julio';break;
+          case 8: monthName ='Agosto';break;
+          case 9: monthName ='Septiembre';break;
+          case 10: monthName ='Octubre';break;
+          case 11: monthName ='Noviembre';break;
+          case 12: monthName ='Diciembre';break;
+        }
+        let anio = endDate.getFullYear();
+        return `${initDate.getDate()}-${endDate.getDate()} ${monthName}, ${anio}` 
+      }
+    },
+    created () {
+      this.availablesDates = this.getAvailablesDates();
+    },
+  
+}
+</script>
+
 <style scoped>
 .about-bg {
   padding: 170px 0 170px;

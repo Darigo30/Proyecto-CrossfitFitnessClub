@@ -3,14 +3,29 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import User from '../classes/user'
+import Plan from '../classes/plan'
+
 export default new Vuex.Store({
   state: {
     userRole: "viewer",
     actualUser: null,
     plan: [],
-    users: []
+    users: [new User("Sergio","storoe1992@gmail.com",new Plan("4 por semana",4),null)]
   },
-  mutations: {},
+  mutations: {
+    setupUser(state,user){
+      state.actualUser = user;
+    }
+  },
+  getters: {
+    getUserById: (state) => (id) => {
+      let user = state.users.find(u => u.user === id);
+      console.log("Usuario encontrado")
+      console.log(user);
+      return user; 
+    }
+  },
   actions: {},
   modules: {},
 });

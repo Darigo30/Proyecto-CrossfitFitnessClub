@@ -1,5 +1,6 @@
 export default class Plan{
-    constructor(name){
+    constructor(name,cant){
         this.name = name;
+        this.cant = cant;
     }
 }
