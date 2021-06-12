@@ -9,7 +9,7 @@
           <div class="lower-content">
             <h3>{{ objeto.nombrePlan }}</h3>
             <p>
-              <i class="fas fa-check-circle"></i>Valor mensual:
+              <i class="fas fa-check-circle"></i>Valor Mensual:
               {{ objeto.valorMensual }} CLP
             </p>
             <p>
