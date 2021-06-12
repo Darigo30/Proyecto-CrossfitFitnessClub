@@ -124,13 +124,16 @@
 <script>
 import Planes from "@/components/Planes.vue";
 import Calculadoraibm from "@/components/Calculadoraibm.vue";
-
+import {mapState} from 'vuex'
 export default {
   name: "Home",
   components: {
     Planes,
     Calculadoraibm,
   },
+  computed : {
+    ...mapState(['userRole'])
+  }
 };
 </script>
 <style scoped>
