@@ -18,8 +18,10 @@
             </p>
             <div class="mt-5">
               <a class="btn-agregar"
-                >Agregar al Carro <i class="fas fa-shopping-cart"></i
-              ></a>
+              @click=" agregarPlan(objeto)">
+                Agregar al Carro
+                <i class="fas fa-shopping-cart"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -28,70 +30,24 @@
   </b-row>
 </template>
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Planes",
-  data() {
-    return {
-      CardsPlanes: [
-        {
-          imagen:
-            "https://www.hola.com/imagenes/estar-bien/20210224184941/crossfit-bootcamp-diferencias-entrenamiento/0-922-979/crossfit-2t-t.jpg",
-          nombrePlan: "3 x Semana $46.000",
-          valorMensual: 46000,
-          ClasesSemanales: 3,
-        },
-        {
-          imagen:
-            "https://www.crossfit.com/wp-content/uploads/2020/10/19092755/2018072814475780_ND_ND5_6593-1-copy-1024x576.jpg",
-          nombrePlan: "4x Semana $66.000",
-          valorMensual: 66000,
-          ClasesSemanales: 4,
-        },
-        {
-          imagen:
-            "https://baloncentral.files.wordpress.com/2020/01/funiber-crossfit.jpg?w=640",
-          nombrePlan: "5 x Semana $86.000",
-          valorMensual: 66000,
-          ClasesSemanales: 5,
-        },
-        {
-          imagen:
-            "https://baloncentral.files.wordpress.com/2020/01/funiber-crossfit.jpg?w=640",
-          nombrePlan: "6 x Semana $86.000",
-          valorMensual: 66000,
-          ClasesSemanales: 6,
-        },
-        {
-          imagen:
-            "https://baloncentral.files.wordpress.com/2020/01/funiber-crossfit.jpg?w=640",
-          nombrePlan: "7 x Semana $86.000",
-          valorMensual: 66000,
-          ClasesSemanales: 7,
-        },
-        {
-          imagen:
-            "https://baloncentral.files.wordpress.com/2020/01/funiber-crossfit.jpg?w=640",
-          nombrePlan: "8 x Semana $86.000",
-          valorMensual: 66000,
-          ClasesSemanales: 8,
-        },
-      ],
-    };
+  computed: {
+    ...mapGetters(["cardsPlanes"]),
+    llamadocard() {
+        return this.cantidadCards()
+    },
   },
-  
  methods: {
      cantidadCards() {
         if(this.$props.CantidadMostar == "all") {
-            return this.CardsPlanes
+            return this.cardsPlanes
         } else {
-            return this.CardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
+            return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
         }
-     }
- },
- computed: {
-    llamadocard() {
-        return this.cantidadCards()
-    }
+     },
+     ...mapMutations(["agregarPlan"]),
  },
  props: {
      CantidadMostar: {
@@ -192,6 +148,10 @@ export default {
   color: #fff;
   font-weight: bold;
   text-transform: uppercase;
+  cursor: pointer;
+}
+.btn-agregar:hover {
+    color: #fbfbfb;
 }
 .svg-inline--fa.fa-check-circle.fa-w-16 {
   margin-right: 15px;

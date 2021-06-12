@@ -75,6 +75,7 @@ p{
     font-size: 20px;
     color: #fff;
     font-weight: bold;
+    cursor: pointer;
   }
   .btn-pagar:hover{
     text-decoration: none;

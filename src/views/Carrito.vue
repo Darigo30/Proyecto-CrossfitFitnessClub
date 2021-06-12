@@ -27,27 +27,44 @@
           <h2 class="text-uppercase fst-italic">
             Detalle de <span>tu compra</span>
           </h2>
-          <h4 class="py-3 ms-4">Plan:<span> 2 x Clases por Semana</span></h4>
-          <div class="ms-4">
-            <p><i class="fas fa-check-circle"></i> Cantidad: 1</p>
-            <p><i class="fas fa-check-circle"></i> Valor Mensual</p>
-            <p><i class="fas fa-check-circle"></i> 2 Clases por semana</p>
+          <div v-if="carrito && carrito.length === 0">
+            <h4> Sin productos en el carro </h4>
+          </div>
+          <div v-else>
+            <div v-for="(comprar, i) in carrito" :key="i">
+              <h4 class="py-3 ms-4">{{ comprar.nombre }}</h4>
+              <p><i class="fas fa-check-circle"></i>Cantidad: {{ comprar.cantidad }}</p>
+              <p><i class="fas fa-check-circle"></i> Valor Mensual: {{ comprar.precio }}</p>
+              <p><i class="fas fa-check-circle"></i> Clases por semana: {{ comprar.clasessemanales }}</p>
+            </div>
+            
           </div>
         </b-col>
         <b-col class="cont-pagar" cols="6">
-          <h4 class="text-uppercase fst-italic text-white">
-            SubTotal: $ 46.000
-          </h4>
           <h4 class="text-uppercase display-6 fst-italic text-white">
-            Total: $ 46.000
+            Total: ${{ totalCarrito }}
           </h4>
           <img class="py-4" src="../assets/paypall.jpg" />
-          <a class="btn-pagar">Ir a Pagar</a>
+          <a class="btn-pagar" @click="btnComprar">Pagar</a>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
+<script>
+import { mapState, mapGetters, mapMutations } from "vuex";
+export default {
+  name: "Carrito",
+  computed: {
+    ...mapState(["carrito"]),
+    ...mapGetters(["totalCarrito"]),
+  },
+  methods: {
+    ...mapMutations(["btnComprar"]),
+  },
+};
+</script>
+
 <style scoped>
 .about-bg {
   padding: 170px 0 170px;
@@ -71,6 +88,7 @@ span {
   flex-direction: column;
   align-items: center;
   border-radius: 25px;
+  height: 320px;
 }
 @media (max-width: 767px) {
   .col-6 {
