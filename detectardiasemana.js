@@ -1,7 +1,7 @@
 function getDay(){
     let fechas = [];
     let fechaActual = new Date();
-    let diasAgregados = 0;
+    let diasAgregados = 12;
     fechaActual.setDate(fechaActual.getDate() + diasAgregados);
     dia = fechaActual.getDate();
     mes = fechaActual.getMonth()+1;// +1 porque los meses empiezan en 0

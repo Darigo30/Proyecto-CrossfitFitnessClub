@@ -15,141 +15,42 @@
     </header>
     <b-container class="py-5">
       <b-row>
+        <b-col sm="12">
+          <div class="training-schedule-cover">
+            <h3 class="training-schedule-top">{{rangeDateToShow}}</h3>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col>
-          <div class="table-responsive">
-            <div class="training-schedule-cover">
-              <h3 class="training-schedule-top">{{rangeDateToShow}}</h3>
-              <div class="training-schedule-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Lunes</th>
-                      <th>Martes</th>
-                      <th>Miércoles</th>
-                      <th>Jueves</th>
-                      <th>Viernes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>6.30am</td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4 class="disabled">Sin cupos</h4>
-                      </td>
-                      <td>
-                        <h4>1/12</h4>
-                        <a class="btn-disa">Cancelar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>7.45am</td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>9.00am</td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>18.30pm</td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>19.15pm</td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                      <td>
-                        <h4>0/12</h4>
-                        <a class="btn-reser">Reservar</a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="training-schedule-cover">
+            <div class="training-schedule-table table-responsive">
+          <b-table  bordered  small  :items="tableItems" :fields="tableFields">
+            <template #cell(hours)="data">
+              {{data.item.hour}}
+            </template>
+            <template #cell(monday)="data">
+              <h4>{{data.item.getCantReservesByDay(1)}}/12</h4>
+              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+            </template>
+            <template #cell(tuesday)="data">
+              <h4>0/12</h4>
+              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+            </template>
+            <template #cell(wednesday)="data">
+              <h4>0/12</h4>
+              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+            </template> 
+            <template #cell(thursday)="data">
+              <h4>0/12</h4>
+              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+            </template>
+            <template #cell(friday)="data">
+              <h4>0/12</h4>
+              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+            </template>
+          </b-table>
+          </div>
           </div>
         </b-col>
       </b-row>
@@ -158,14 +59,57 @@
 </template>
 <script>
 
+import Schedule from '../classes/schedule';
+import Reservation from '../classes/reservation';
+import {mapMutations, mapGetters} from 'vuex';
+
 export default {
     name: 'Agenda',
     data() {
       return {
-        availablesDates: []
+        availablesDates: [],
+        tableItems : [
+            new Schedule("0630","6:30am"),
+            new Schedule("0745","7:45am"),
+            new Schedule("0900","9:00am"),
+            new Schedule("1830","6:30pm"),
+            new Schedule("1915","7:15pm"),
+        ],
+        tableFields : [
+          {key:'hours',label:' ',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},tdClass : ['text-center','bold']},
+          {key:'monday',label:'Lunes',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},thClass:["white-text"]},
+          {key:'tuesday',label:'Martes',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},thClass:["white-text"]},
+          {key:'wednesday',label:'Miércoles',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},thClass:["white-text"]},
+          {key:'thursday',label:'Jueves',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},thClass:["white-text"]},
+          {key:'friday',label:'Viernes',thStyle : {width: "12.5%",padding: "10px 5px",fontWeight: "700",textTransform: "uppercase",textAlign: "center",border: "1px solid #f30a46",backgroundColor:"#f30a46",color:"white"},thClass:["white-text"]}
+        ]
       }
     },
     methods: {
+      ...mapMutations(['addReservationToUser']),
+      reserve(hour,day){
+          let dateIndex = 0;
+          switch(day){
+            case 'monday' : dateIndex = 0;break;
+            case 'tuesday' : dateIndex = 1;break;
+            case 'wednesday' : dateIndex = 2;break;
+            case 'thrusday' : dateIndex = 3;break;
+            case 'friday' : dateIndex = 4;break;
+          } 
+          let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
+          this.addReservationToUser(reservation);
+          this.loadReservas();
+      },
+      loadReservas(){
+          let reseravations = this.getReservations();
+          reseravations.forEach(reservation => {
+              this.tableItems.forEach(schedule => {
+                if(reservation.hour === schedule.id){
+                  schedule.addReservation(reservation);
+                }
+              })
+          });
+      },
       getAvailablesDates() {
         let fechas = [];
         let fechaActual = new Date();
@@ -179,7 +123,7 @@ export default {
       }
     },
     computed: {
-      
+      ...mapGetters(['getReservations']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
         let endDate = this.availablesDates[this.availablesDates.length - 1]
@@ -210,7 +154,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+
 .about-bg {
   padding: 170px 0 170px;
   position: relative;
@@ -247,6 +193,7 @@ span {
   background-color: #f30a46;
   text-transform: uppercase;
 }
+
 .training-schedule-table tr:last-child {
   border-bottom: none;
 }
@@ -278,4 +225,6 @@ h4 {
 .disabled {
   color: rgb(128, 128, 128);
 }
+
+
 </style>

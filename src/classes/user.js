@@ -1,13 +1,13 @@
 export default class User{
-    constructor(name,user,plan,reserva){
+    constructor(name,user,plan,reservation){
         this.name = name;
         this.user = user;
         this.plan = plan;
-        this.reserva = reserva == null ? [] : reserva;
+        this.reservation = reservation == null ? [] : reservation;
     }
 
     addReservation(reservation){
-        this.reserva.push(reservation);
+        this.reservation.push(reservation);
     }
 }
 

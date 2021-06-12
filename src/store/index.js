@@ -16,9 +16,17 @@ export default new Vuex.Store({
   mutations: {
     setupUser(state,user){
       state.actualUser = user;
+    },
+    addReservationToUser(state,reservation){
+      if(state.actualUser != null){
+        state.actualUser.addReservation(reservation);
+      }else console.log("No hay usuario logueado")
     }
   },
   getters: {
+    getReservations: (state) => {
+      return state.users.map(user => user.reservation);
+    },
     getUserById: (state) => (id) => {
       let user = state.users.find(u => u.user === id);
       console.log("Usuario encontrado")
