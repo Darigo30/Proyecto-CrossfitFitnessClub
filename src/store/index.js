@@ -12,10 +12,17 @@ export default new Vuex.Store({
     userRole: "viewer",
     actualUser: null,
     plan: [],
-    users: [new User("Sergio","storoe1992@gmail.com",new Plan("4 por semana",4),null)],
+    users: [
+      new User(
+      "Sergio",
+      "storoe1992@gmail.com",
+        new Plan("4 por semana",4),null)
+      ],
     planes: [],
     carrito: [],
     ventas: [],
+    lastVisitedPage: "",
+    pagado: false
   },
   mutations: {
     setupUser(state,user){
@@ -59,6 +66,7 @@ export default new Vuex.Store({
           }
         },
         btnComprar(state) {
+          if(state.actualUser){
           const compraFinal = confirm("¿Quieres comprar ahora?");
           if (compraFinal) {
             const ventaPlan = state.carrito.map((obj) => {
@@ -73,7 +81,14 @@ export default new Vuex.Store({
             });
             state.ventas = ventaPlan;
             state.carrito = [];
+            state.pagado = true;
           }
+          } else{
+            state.pagado = false;
+          }
+        },
+        setLastVisitedPage(state, namePage){
+          state.lastVisitedPage = namePage;
         }
   },
   getters: {
@@ -85,24 +100,32 @@ export default new Vuex.Store({
     },
     getUserById: (state) => (id) => {
       let user = state.users.find(u => u.user === id);
+      console.log("Usuario encontrado")
+      console.log(state.users[0].name);
       return user;
     },
     cantidadCarrito(state) {
-            return state.carrito.length;
-          },
-          cardsPlanes(state) {
-            return !state.planes ? [] : state.planes;
-          },
-          totalCarrito(state) {
-            const carrito = state.carrito;
-            if (carrito.length === 0) return 0;
-            const suma = carrito.reduce((acc, x) => acc + x.total, 0);
-            return suma;
-          },
+      return state.carrito.length;
+    },
+    cardsPlanes(state) {
+      return !state.planes ? [] : state.planes;
+    },
+    totalCarrito(state) {
+      const carrito = state.carrito;
+      if (carrito.length === 0) return 0;
+      const suma = carrito.reduce((acc, x) => acc + x.total, 0);
+      return suma;
+    },
+    valorLogeadoPagado(state) {
+      return state.pagado;
+    },
+    isLogeado(state) {
+      return state.actualUser !== null ? true : false;
+    }
   },
   actions: {
   async getDataApi({ commit }) {
-        const url = "https://us-central1-proyecto-crossfit.cloudfunctions.net/crossfit";
+        const url = "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit";
         try {
           const req = await axios(url);
           const planesAxi = req.data;

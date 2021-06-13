@@ -70,7 +70,7 @@
 </template>
 <script>
 
-import {mapMutations, mapGetters} from 'vuex';
+import {mapState, mapMutations, mapGetters} from 'vuex';
 
 export default {
   name: 'Login',
@@ -85,10 +85,20 @@ export default {
     ...mapMutations(['setupUser']),
     login() {
       let user = this.getUserById(this.username);
-      if(user!=null) this.setupUser(user);
+      if(user!=null)
+      {
+        this.setupUser(user);
+        console.log("ultima pagina:" + this.lastVisitedPage)
+        if(this.lastVisitedPage){
+          this.$router.push({name: this.lastVisitedPage});
+        }else{
+          this.$router.push("/home");
+        }
+      }
     }
   },
   computed: {
+    ...mapState(['lastVisitedPage']),
     ...mapGetters(['getUserById'])
   },
 }

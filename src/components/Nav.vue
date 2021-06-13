@@ -84,10 +84,17 @@
                 >
               </div>
               <div class="icono-login">
-                <router-link class="log" to="/login"
-                  ><i class="fas fa-user-alt"></i
-                ></router-link>
+                <router-link class="log" to="/login">
+                  <i class="fas fa-user-alt"></i>
+                </router-link>
               </div>
+              <!-- <div class="icono-login">
+                  <b-nav-item-dropdown right>
+                    <b-dropdown-item href="#">Ver Perfil</b-dropdown-item>
+                    <b-dropdown-item href="#">Cerrar Sesión</b-dropdown-item>
+                  </b-nav-item-dropdown>
+              </div> -->
+              
               <div class="become-member">
                 <router-link to="/socio">Quiero ser Socio</router-link>
               </div>
