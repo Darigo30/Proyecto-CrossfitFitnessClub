@@ -13,7 +13,7 @@
         </b-row>
       </b-container>
     </header>
-    <b-container class="py-5">
+    <b-container class="py-5"  v-if="actualUser">
       <b-row>
         <b-col sm="12">
           <div class="training-schedule-cover">
@@ -55,13 +55,21 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-container v-else class="py-ag">
+      <b-row>
+        <b-col>
+          <h4 class="text-center">Para agendar debes estar logeado</h4>
+        </b-col>
+      </b-row>
+      
+    </b-container>
   </div>
 </template>
 <script>
 
 import Schedule from '../classes/schedule';
 import Reservation from '../classes/reservation';
-import {mapMutations, mapGetters} from 'vuex';
+import {mapMutations, mapGetters, mapState} from 'vuex';
 
 export default {
     name: 'Agenda',
@@ -123,6 +131,7 @@ export default {
       }
     },
     computed: {
+      ...mapState(["actualUser"]),
       ...mapGetters(['getReservations']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
@@ -225,6 +234,8 @@ h4 {
 .disabled {
   color: rgb(128, 128, 128);
 }
-
+.py-ag{
+  padding: 200px;
+}
 
 </style>

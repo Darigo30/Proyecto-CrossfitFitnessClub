@@ -15,10 +15,15 @@
     </header>
     <b-container class="py-5">
       <b-row>
-        <b-col cols="12">
-          <div class="alert alert-secondary" role="alert">
-            Para pagar debes estar logeado
-            <a href="#" class="alert-link">Inicia Sesión</a>.
+        <b-col cols="12" v-if="!login">
+          <div class="alert alert-danger" role="alert">
+            Para pagar debes
+            <div @click="$router.push('/login')" class="alert-link d-inline-block i-s">Iniciar Sesión</div>
+          </div>
+        </b-col>
+        <b-col cols="12" v-if="valorLogeadoPagado">
+          <div class="alert alert-success" role="alert">
+            ¡Felicidades, su compra ha sido exitosa!
           </div>
         </b-col>
       </b-row>
@@ -45,7 +50,7 @@
             Total: ${{ totalCarrito }}
           </h4>
           <img class="py-4" src="../assets/paypall.jpg" />
-          <a class="btn-pagar" @click="btnComprar">Pagar</a>
+          <b-button class="btn-pagar" :class="{'disabled' : carrito.length < 1}" @click="comprarEx">Pagar</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -55,12 +60,22 @@
 import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   name: "Carrito",
+  data() {
+    return {
+      login: true,
+    }
+  },
   computed: {
     ...mapState(["carrito"]),
-    ...mapGetters(["totalCarrito"]),
+    ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
   },
   methods: {
     ...mapMutations(["btnComprar"]),
+    comprarEx(){
+      this.btnComprar();
+      console.log(this.isLogeado)
+      this.login = this.isLogeado;
+    }
   },
 };
 </script>
@@ -81,6 +96,13 @@ export default {
 span {
   color: #f30b47;
 }
+.btn-pagar{
+  border: none;
+}
+.btn-pagar:hover{
+  border: 1px solid #fff;
+   background-color: #082846;
+}
 .cont-pagar {
   padding: 40px;
   background-color: #082846;
@@ -89,6 +111,13 @@ span {
   align-items: center;
   border-radius: 25px;
   height: 320px;
+}
+.i-s{
+  cursor: pointer;
+}
+.bg-disable {
+  background: #ccc;
+  color: beige;
 }
 @media (max-width: 767px) {
   .col-6 {
