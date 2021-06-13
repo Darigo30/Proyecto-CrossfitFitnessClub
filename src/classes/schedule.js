@@ -27,5 +27,23 @@ export default class Schedule{
         return reservations.length;
     }
 
+    
+    getAtLeastOneReservationMatch(day,userReservations){
+        let reservations = this.reservations.filter(reserv => reserv.date.getDay() === day && reserv.hour === this.id);
+        let founded = false;
+        let i = 0;
+        while(i < reservations.length && !founded){
+            let scheduleReservation = reservations[i];
+            founded = this.hasScheduleReservation(scheduleReservation,userReservations) ? true : false;
+            i++;
+        }
+        return founded;
+    }
+
+    hasScheduleReservation(scheduleReservation,userReservations){
+        return userReservations.find(reserv => scheduleReservation.sameReservation(reserv));
+    }
+    
+
 
 }

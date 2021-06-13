@@ -27,27 +27,57 @@
             <div class="training-schedule-table table-responsive">
           <b-table ref="table"  bordered  small  :items="tableItems" :fields="tableFields">
             <template #cell(hours)="data">
-              {{data.item.hour}}
+              <h4 class="disabled">{{data.item.hour}}</h4>
             </template>
             <template #cell(monday)="data">
-              <h4>{{data.item.getCantReservesByDay(1)}}/12</h4>
-              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+              <div v-if="data.item.getCantReservesByDay(1) < cantMaxReserv">
+                <h4>{{data.item.getCantReservesByDay(1)}}/{{cantMaxReserv}}</h4>
+                <button v-if="!data.item.getAtLeastOneReservationMatch(1,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              </div>
+              <div v-else>
+                <h4 class="disabled">Sin cupos</h4>
+              </div>
             </template>
             <template #cell(tuesday)="data">
-              <h4>{{data.item.getCantReservesByDay(2)}}/12</h4>
-              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+              <div v-if="data.item.getCantReservesByDay(2) < cantMaxReserv">
+                <h4>{{data.item.getCantReservesByDay(2)}}/{{cantMaxReserv}}</h4>
+                <button v-if="!data.item.getAtLeastOneReservationMatch(2,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              </div>
+              <div v-else>
+                <h4 class="disabled">Sin cupos</h4>
+              </div>
             </template>
             <template #cell(wednesday)="data">
-              <h4>{{data.item.getCantReservesByDay(3)}}/12</h4>
-              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+              <div v-if="data.item.getCantReservesByDay(3) < cantMaxReserv">
+                <h4>{{data.item.getCantReservesByDay(3)}}/{{cantMaxReserv}}</h4>
+                <button v-if="!data.item.getAtLeastOneReservationMatch(3,getActualUserReservation)"  class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              </div>
+              <div v-else>
+                <h4 class="disabled">Sin cupos</h4>
+              </div>
             </template> 
             <template #cell(thursday)="data">
-              <h4>{{data.item.getCantReservesByDay(4)}}/12</h4>
-              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+              <div v-if="data.item.getCantReservesByDay(4) < cantMaxReserv">
+                <h4>{{data.item.getCantReservesByDay(4)}}/{{cantMaxReserv}}</h4>
+                <button v-if="!data.item.getAtLeastOneReservationMatch(4,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              </div>
+              <div v-else>
+                <h4 class="disabled">Sin cupos</h4>
+              </div>
             </template>
             <template #cell(friday)="data">
-              <h4>{{data.item.getCantReservesByDay(5)}}/12</h4>
-              <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+              <div v-if="data.item.getCantReservesByDay(5) < cantMaxReserv">
+                <h4>{{data.item.getCantReservesByDay(5)}}/{{cantMaxReserv}}</h4>
+                <button v-if="!data.item.getAtLeastOneReservationMatch(5,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              </div>
+              <div v-else>
+                <h4 class="disabled">Sin cupos</h4>
+              </div>
             </template>
           </b-table>
           </div>
@@ -67,6 +97,7 @@ export default {
     name: 'Agenda',
     data() {
       return {
+        cantMaxReserv : 12,
         availablesDates: [],
         tableItems : [
             new Schedule("0630","6:30am"),
@@ -86,12 +117,18 @@ export default {
       }
     },
     methods: {
-      ...mapMutations(['addReservationToUser']),
+      ...mapMutations(['addReservationToUser','deleteUserReservation']),
       reserve(hour,day){
           let dateIndex = this.getIndexByDayId(day);
           let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
           this.addReservationToUser(reservation);
           this.loadReservas();
+      },
+      cancel(hour,day){
+        let dateIndex = this.getIndexByDayId(day);
+        let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
+        this.deleteUserReservation(reservation);
+        this.loadReservas();
       },
       getIndexByDayId(day){
         let dateIndex = 0;
@@ -124,7 +161,7 @@ export default {
       }
     },
     computed: {
-      ...mapGetters(['getReservations']),
+      ...mapGetters(['getReservations','getActualUserReservation']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
         let endDate = this.availablesDates[this.availablesDates.length - 1]
