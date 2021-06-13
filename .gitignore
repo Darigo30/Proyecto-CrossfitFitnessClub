@@ -8,6 +8,8 @@ node_modules
 
 # local env files
 .env.local
+package-lock.json
+firebase-config.json
 .env.*.local
 
 # Log files

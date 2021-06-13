@@ -12,7 +12,7 @@ export default new Vuex.Store({
     userRole: "viewer",
     actualUser: null,
     plan: [],
-    users: [new User("Sergio","storoe1992@gmail.com",new Plan("4 por semana",4),null)]
+    users: [new User("Sergio","storoe1992@gmail.com",new Plan("4 por semana",4),null)],
     planes: [],
     carrito: [],
     ventas: [],
