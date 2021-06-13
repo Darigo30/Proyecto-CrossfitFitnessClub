@@ -16,6 +16,10 @@ export default new Vuex.Store({
       new User(
       "Sergio",
       "storoe1992@gmail.com",
+      new Plan("4 por semana",4),null),
+      new User(
+        "Dariana",
+        "darigomez30@gmail.com",
         new Plan("4 por semana",4),null)
       ],
     planes: [],

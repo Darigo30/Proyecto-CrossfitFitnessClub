@@ -124,6 +124,16 @@ export default {
         ]
       }
     },
+    beforeRouteEnter(to,from,next){
+    next( vm => {
+        try{
+          vm.loadReservas();
+        }catch(error){
+          console.error(error)
+        }
+      
+    });
+  },
     methods: {
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
       reserve(hour,day){
@@ -150,8 +160,10 @@ export default {
           return dateIndex;
       },
       loadReservas(){
+        if(this.$refs.table){
           this.tableItems.forEach(this.setupScheduleReservation)
           this.$refs.table.refresh();
+        }
       },
       setupScheduleReservation(schedule){
         schedule.reservations = this.getReservations
