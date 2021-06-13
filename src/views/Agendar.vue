@@ -25,7 +25,7 @@
         <b-col>
           <div class="training-schedule-cover">
             <div class="training-schedule-table table-responsive">
-          <b-table  bordered  small  :items="tableItems" :fields="tableFields">
+          <b-table ref="table"  bordered  small  :items="tableItems" :fields="tableFields">
             <template #cell(hours)="data">
               {{data.item.hour}}
             </template>
@@ -34,19 +34,19 @@
               <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
             </template>
             <template #cell(tuesday)="data">
-              <h4>0/12</h4>
+              <h4>{{data.item.getCantReservesByDay(2)}}/12</h4>
               <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
             </template>
             <template #cell(wednesday)="data">
-              <h4>0/12</h4>
+              <h4>{{data.item.getCantReservesByDay(3)}}/12</h4>
               <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
             </template> 
             <template #cell(thursday)="data">
-              <h4>0/12</h4>
+              <h4>{{data.item.getCantReservesByDay(4)}}/12</h4>
               <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
             </template>
             <template #cell(friday)="data">
-              <h4>0/12</h4>
+              <h4>{{data.item.getCantReservesByDay(5)}}/12</h4>
               <button class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
             </template>
           </b-table>
@@ -88,35 +88,36 @@ export default {
     methods: {
       ...mapMutations(['addReservationToUser']),
       reserve(hour,day){
-          let dateIndex = 0;
-          switch(day){
-            case 'monday' : dateIndex = 0;break;
-            case 'tuesday' : dateIndex = 1;break;
-            case 'wednesday' : dateIndex = 2;break;
-            case 'thrusday' : dateIndex = 3;break;
-            case 'friday' : dateIndex = 4;break;
-          } 
+          let dateIndex = this.getIndexByDayId(day);
           let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
           this.addReservationToUser(reservation);
           this.loadReservas();
       },
+      getIndexByDayId(day){
+        let dateIndex = 0;
+          switch(day){
+            case 'monday' : dateIndex = 0;break;
+            case 'tuesday' : dateIndex = 1;break;
+            case 'wednesday' : dateIndex = 2;break;
+            case 'thursday' : dateIndex = 3;break;
+            case 'friday' : dateIndex = 4;break;
+          } 
+          return dateIndex;
+      },
       loadReservas(){
-          let reseravations = this.getReservations();
-          reseravations.forEach(reservation => {
-              this.tableItems.forEach(schedule => {
-                if(reservation.hour === schedule.id){
-                  schedule.addReservation(reservation);
-                }
-              })
-          });
+          this.tableItems.forEach(this.setupScheduleReservation)
+          this.$refs.table.refresh();
+      },
+      setupScheduleReservation(schedule){
+        schedule.reservations = this.getReservations
+        .filter(reserv => reserv.hour === schedule.id);
       },
       getAvailablesDates() {
         let fechas = [];
-        let fechaActual = new Date();
-        fechaActual.setDate(fechaActual.getDate() - fechaActual.getDay());
         for(let i = 1; i < 6;i++){
             let dateToAdd = new Date();
-            dateToAdd.setDate(fechaActual.getDate() + i);
+            dateToAdd.setDate(dateToAdd.getDate() - dateToAdd.getDay());
+            dateToAdd.setDate(dateToAdd.getDate() + i);
             fechas.push(dateToAdd);
         }
         return fechas;

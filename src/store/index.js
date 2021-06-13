@@ -24,7 +24,7 @@ export default new Vuex.Store({
     addReservationToUser(state,reservation){
       if(state.actualUser != null){
         state.actualUser.addReservation(reservation);
-      }else console.log("No hay usuario logueado")
+      }else console.log("No hay usuario logueado");
     },
     cargarDatos(state, payload) {
           state.planes = payload;
@@ -72,13 +72,11 @@ export default new Vuex.Store({
         }
   },
   getters: {
-    getReservations: (state) => {
-      return state.users.map(user => user.reservation);
+    getReservations: state => {
+      return state.users.flatMap(user => user.reservation);
     },
     getUserById: (state) => (id) => {
       let user = state.users.find(u => u.user === id);
-      console.log("Usuario encontrado")
-      console.log(user);
       return user;
     },
     cantidadCarrito(state) {
