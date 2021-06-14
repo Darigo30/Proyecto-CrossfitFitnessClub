@@ -18,7 +18,12 @@
         <b-col cols="12" v-if="!login">
           <div class="alert alert-danger" role="alert">
             Para pagar debes
-            <div @click="$router.push('/login')" class="alert-link d-inline-block i-s">Iniciar Sesión</div>
+            <div
+              @click="$router.push('/login')"
+              class="alert-link d-inline-block i-s"
+            >
+              Iniciar Sesión
+            </div>
           </div>
         </b-col>
         <b-col cols="12" v-if="valorLogeadoPagado">
@@ -33,16 +38,25 @@
             Detalle de <span>tu compra</span>
           </h2>
           <div v-if="carrito && carrito.length === 0">
-            <h4> Sin productos en el carro </h4>
+            <h4>Sin productos en el carro</h4>
           </div>
           <div v-else>
             <div v-for="(comprar, i) in carrito" :key="i">
               <h4 class="py-3 ms-4">{{ comprar.nombre }}</h4>
-              <p><i class="fas fa-check-circle"></i>Cantidad: {{ comprar.cantidad }}</p>
-              <p><i class="fas fa-check-circle"></i> Valor Mensual: {{ comprar.precio }}</p>
-              <p><i class="fas fa-check-circle"></i> Clases por semana: {{ comprar.clasessemanales }}</p>
+              <p>
+                <i class="fas fa-check-circle"></i>Cantidad:
+                {{ comprar.cantidad }}
+              </p>
+              <p>
+                <i class="fas fa-check-circle"></i> Valor Mensual:
+                {{ comprar.precio }}
+              </p>
+              <p>
+                <i class="fas fa-check-circle"></i> Clases por semana:
+                {{ comprar.clasessemanales }}
+              </p>
+              <button class="btn btn-danger" @click="eliminarCarrito">Eliminar plan</button>
             </div>
-            
           </div>
         </b-col>
         <b-col class="cont-pagar" cols="6">
@@ -50,7 +64,12 @@
             Total: ${{ totalCarrito }}
           </h4>
           <img class="py-4" src="../assets/paypall.jpg" />
-          <b-button class="btn-pagar" :class="{'disabled' : carrito.length < 1}" @click="comprarEx">Pagar</b-button>
+          <b-button
+            class="btn-pagar"
+            :class="{ disabled: carrito.length < 1 }"
+            @click="comprarEx"
+            >Pagar</b-button
+          >
         </b-col>
       </b-row>
     </b-container>
@@ -63,19 +82,19 @@ export default {
   data() {
     return {
       login: true,
-    }
+    };
   },
   computed: {
     ...mapState(["carrito"]),
     ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
   },
   methods: {
-    ...mapMutations(["btnComprar"]),
-    comprarEx(){
+    ...mapMutations(["btnComprar", "eliminarCarrito"]),
+    comprarEx() {
       this.btnComprar();
-      console.log(this.isLogeado)
+      console.log(this.isLogeado);
       this.login = this.isLogeado;
-    }
+    },
   },
 };
 </script>
@@ -96,12 +115,12 @@ export default {
 span {
   color: #f30b47;
 }
-.btn-pagar{
+.btn-pagar {
   border: none;
 }
-.btn-pagar:hover{
+.btn-pagar:hover {
   border: 1px solid #fff;
-   background-color: #082846;
+  background-color: #082846;
 }
 .cont-pagar {
   padding: 40px;
@@ -112,7 +131,7 @@ span {
   border-radius: 25px;
   height: 320px;
 }
-.i-s{
+.i-s {
   cursor: pointer;
 }
 .bg-disable {

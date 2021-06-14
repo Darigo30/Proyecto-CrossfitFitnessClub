@@ -77,24 +77,26 @@
             </div>
             <div class="text-right p-0 nobile-position">
               <div class="shopping-bag">
-                <div  @click="$router.push('/carrito')"  class="cart" to="/carrito">
+                <div
+                  @click="$router.push('/carrito')"
+                  class="cart"
+                  to="/carrito"
+                >
                   <i class="fas fa-shopping-bag"></i>
                   <span>{{ cantidadCarrito }}</span>
-                </div
-                >
+                </div>
               </div>
-              <div class="icono-login">
+              <div class="icono-login" v-if="!isLogeado">
                 <router-link class="log" to="/login">
                   <i class="fas fa-user-alt"></i>
                 </router-link>
               </div>
-              <!-- <div class="icono-login">
-                  <b-nav-item-dropdown right>
-                    <b-dropdown-item href="#">Ver Perfil</b-dropdown-item>
-                    <b-dropdown-item href="#">Cerrar Sesión</b-dropdown-item>
-                  </b-nav-item-dropdown>
-              </div> -->
-              
+              <div class="icono-login" v-else>
+                <b-dropdown id="dropdown-1" text="Cerrar Sesión" class="m-md-2 btn-drop">
+                  <b-dropdown-item @click ="cerrarSesion()">Salir</b-dropdown-item>
+                </b-dropdown>
+              </div>
+
               <div class="become-member">
                 <router-link to="/socio">Quiero ser Socio</router-link>
               </div>
@@ -107,11 +109,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Nav",
-   computed: {
-    ...mapGetters(["cantidadCarrito"]),
+  computed: {
+    ...mapGetters(["cantidadCarrito", "isLogeado"]),
+  },
+  methods: {
+    ...mapMutations(["cerrarSesion"]),
   },
 };
 </script>
@@ -121,7 +126,7 @@ export default {
   padding-right: 0;
 }
 .nav-item {
-  margin: 25px 10px;
+  margin: 25px 0px;
 }
 .logo {
   width: 70%;
@@ -129,6 +134,12 @@ export default {
 }
 .navbar {
   padding-top: 0;
+}
+.dropdown-toggle{
+  background: transparent!important;
+  border: 1px solid #f30b47;
+  padding: 12px;
+  border-radius: 0px;
 }
 .navbar-expand-lg .navbar-collapse {
   display: flex;
