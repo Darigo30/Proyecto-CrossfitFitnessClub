@@ -43,7 +43,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-##########################
+## Usuarios de Prueba de Login
 Users
 Demonio de Tamania
 user: tasmania@gmail.com
