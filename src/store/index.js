@@ -51,10 +51,6 @@ export default new Vuex.Store({
       state.actualUser = null;
       router.push("/");
     },
-    addReservationToUser(state, reservation) {
-      if (state.actualUser != null) {
-        state.actualUser.addReservation(reservation);
-      } else console.log("No hay usuario logueado");
     addReservationToUser(state,payload){
       if(state.actualUser != null){
         state.actualUser.validateAvailableReserveIntoWeekByHiredPlan(payload.dates)
@@ -97,15 +93,18 @@ export default new Vuex.Store({
         const compraFinal = confirm("¿Quieres comprar ahora?");
         if (compraFinal) {
           const ventaPlan = state.carrito.map((obj) => {
+            console.log(obj);
             const objvendido = {
               id: obj.id,
               nombre: obj.nombre,
               total: obj.total,
               cantidadVendida: obj.cantidad,
+              clasessemanales : obj.clasessemanales
             };
             console.log(objvendido, "la venta");
             return objvendido;
           });
+          state.actualUser.plan = new Plan(ventaPlan[0].nombre,ventaPlan[0].clasessemanales);
           state.ventas = ventaPlan;
           state.carrito = [];
           state.pagado = true;

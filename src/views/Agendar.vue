@@ -21,11 +21,16 @@
               <div class="col-md-4">
                 <img class="musculo" src="../assets/ejercicio.png" alt="Icono">
               </div>
-              <div class="col-md-4">
+              <div v-if="actualUser.plan" class="col-md-4">
                 <div class="card-body">
                   <h3 class="card-title"><span>Hola, {{ infoUsers.name }}</span></h3>
                   <h4 class="card-text color-car">Tu plan es: {{ infoUsers.plan.name }}</h4>
                   <h4 class="card-text color-car">Clases por semana: {{ infoUsers.plan.cant }}</h4>
+                </div>
+              </div>
+              <div v-else class="col-md-4">
+                <div class="card-body">
+                  <h3 class="card-title"><span>Hola actualmente no tienes un plan contratado</span></h3>
                 </div>
               </div>
               <div class="col-md-4">
@@ -281,7 +286,7 @@ export default {
     },
     computed: {
       ...mapState(["actualUser"]),
-      ...mapGetters(['getReservations','getActualUserReservation']),
+      ...mapGetters(['getReservations','getActualUserReservation','infoUsers']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
         let endDate = this.availablesDates[this.availablesDates.length - 1]

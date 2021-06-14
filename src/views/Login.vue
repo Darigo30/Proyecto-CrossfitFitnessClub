@@ -71,6 +71,7 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex';
+import sjcl from 'sjcl';
 
 export default {
   name: 'Login',
