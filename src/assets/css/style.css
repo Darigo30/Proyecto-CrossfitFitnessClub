@@ -65,6 +65,20 @@ p{
     border-radius: 0px;
     text-decoration: none;
   }
+  .btn-resers{
+    background:black;
+    padding: 6px;
+    color: #fff;
+    margin: 0 auto;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 0px;
+    text-decoration: none;
+  }
+  a.btn-resers:hover{
+    text-decoration: none;
+  }
   .btn-pagar{
     background: #f30b47;
     display: block;
@@ -75,6 +89,7 @@ p{
     font-size: 20px;
     color: #fff;
     font-weight: bold;
+    cursor: pointer;
   }
   .btn-pagar:hover{
     text-decoration: none;

@@ -42,3 +42,21 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+##########################
+Users
+Demonio de Tamania
+user: tasmania@gmail.com
+password: tasmania
+
+Pedro Picapiedra
+user: elmaspicao@gmail.com
+password: reydelmesosoico
+
+Dariana Gómez
+user: darigomez30@gmail.com
+password: 123456
+
+Sergio Toro
+user: storoe1992@gmail.com
+password: 1234567890

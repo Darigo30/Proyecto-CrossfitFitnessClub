@@ -77,80 +77,56 @@
             </div>
             <div class="text-right p-0 nobile-position">
               <div class="shopping-bag">
-                <router-link class="cart" to="/carrito"
-                  ><i class="fas fa-shopping-bag"></i
-                  ><span>0</span></router-link
+                <div
+                  @click="$router.push('/carrito')"
+                  class="cart"
+                  to="/carrito"
                 >
+                  <i class="fas fa-shopping-bag"></i>
+                  <span>{{ cantidadCarrito }}</span>
+                </div>
               </div>
-              <div class="icono-login">
-                <router-link class="log" to="/login"
-                  ><i class="fas fa-user-alt"></i
-                ></router-link>
+              <div class="icono-login" v-if="!isLogeado">
+                <router-link class="log" to="/login">
+                  <i class="fas fa-user-alt"></i>
+                </router-link>
               </div>
+              <div class="icono-login" v-else>
+                <b-dropdown id="dropdown-1" text="Cerrar Sesión" class="m-md-2 btn-drop">
+                  <b-dropdown-item @click ="cerrarSesion()">Salir</b-dropdown-item>
+                </b-dropdown>
+              </div>
+
               <div class="become-member">
                 <router-link to="/socio">Quiero ser Socio</router-link>
               </div>
             </div>
           </b-navbar-nav>
         </b-collapse>
-        <!-- <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="d-flex">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-uppercase text-white">
-                <li class="nav-item">
-                  <router-link class="nav-link active" to="/">Inicio</router-link>
-                </li>
-                <li class="nav-item">
-                  <router-link class="nav-link" to="/acercade">Acerca de</router-link>
-                </li>
-                <li class="nav-item">
-                  <router-link class="nav-link" to="/contacto">Contacto</router-link>
-                </li>
-                <li class="nav-item">
-                  <router-link class="nav-link agend" to="/agendar">Agenda Clases</router-link>
-                </li>
-              </ul>
-            </div>
-            <div class="text-right p-0 nobile-position">
-              <div class="shopping-bag">
-                <router-link class="cart" to="/carrito"><i class="fas fa-shopping-bag"></i><span>0</span></router-link>
-              </div>
-              <div class="icono-login">
-                <router-link class="log" to="/login"><i class="fas fa-user-alt"></i></router-link>
-              </div>
-              <div class="become-member">
-                <router-link to="/socio">Quiero ser Socio</router-link>
-              </div>
-            </div>
-        </div> -->
       </div>
     </nav>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 export default {
   name: "Nav",
+  computed: {
+    ...mapGetters(["cantidadCarrito", "isLogeado"]),
+  },
+  methods: {
+    ...mapMutations(["cerrarSesion"]),
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .cont-nav {
   padding-right: 0;
 }
 .nav-item {
-  margin: 25px 10px;
+  margin: 25px 0px;
 }
 .logo {
   width: 70%;
@@ -159,6 +135,12 @@ export default {
 .navbar {
   padding-top: 0;
 }
+.dropdown-toggle{
+  background: transparent!important;
+  border: 1px solid #f30b47;
+  padding: 12px;
+  border-radius: 0px;
+}
 .navbar-expand-lg .navbar-collapse {
   display: flex;
   justify-content: space-between;
@@ -166,6 +148,7 @@ export default {
 .shopping-bag {
   display: inline-block;
   padding: 0 12px;
+  cursor: pointer;
 }
 .shopping-bag a {
   text-decoration: none;

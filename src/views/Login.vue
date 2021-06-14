@@ -40,6 +40,7 @@
                 class="form-control calc"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
+                v-model="username"
               />
               <div id="emailHelp" class="form-text text-white">
                 No compartiremos tu correo con nadie.
@@ -53,12 +54,13 @@
                 type="password"
                 class="form-control calc"
                 id="exampleInputPassword1"
+                v-model="password"
               />
               <div id="emailHelp" class="form-text text-white">
                 No compartiremos tu contraseña con nadie.
               </div>
             </div>
-            <button class="btn-logg cl-lo">Ingresar</button>
+            <button @click="login" class="btn-logg cl-lo">Ingresar</button>
             <button class="ms-2 cl-lo bt-limp">Limpiar</button>
           </div>
         </b-col>
@@ -66,6 +68,49 @@
     </b-container>
   </div>
 </template>
+<script>
+
+import {mapState, mapMutations, mapGetters} from 'vuex';
+import sjcl from 'sjcl';
+
+export default {
+  name: 'Login',
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    ...mapMutations(["setupUser"]),
+    login() {
+      try{
+      let user = this.getUserById(this.username);
+      if (user != null) {
+        var bitArray = sjcl.hash.sha256.hash(this.password);
+        var digest = sjcl.codec.hex.fromBits(bitArray);
+        if(user.password !== digest)
+          throw 'Usuario o contraseña inválidos'
+        this.setupUser(user);
+        console.log("ultima pagina:" + this.lastVisitedPage);
+        if (this.lastVisitedPage) {
+          this.$router.push({ name: this.lastVisitedPage });
+        } else {
+          this.$router.push("/home");
+        }
+      }
+      }catch(e){
+        alert(e);
+      }
+    }
+  },
+  computed: {
+    ...mapState(["lastVisitedPage"]),
+    ...mapGetters(["getUserById"]),
+  },
+};
+</script>
+
 <style scoped>
 .about-bg {
   padding: 170px 0 170px;

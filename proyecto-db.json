@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "proyecto-crossfit",
+  "private_key_id": "b2b1b8ed1b8e08eef56f3cd35ad8fd5b46910a66",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDRsCByv/A3Bp5S\nJkmfqDDmILa4JqCRFHh9kEeVaaivKxUFLwkHvRo58RFeRcm5QD4K6YX8TTnbU74e\n1JvOAxV/iTb8LCpUF3abWi2a3WaKGumcIvNXP350a0Hin5O7FbKi4yIb7LFLM22K\n9IjXBbjeac9c1XQoYWsJCypKAJMbQXiflZsJY0m0RayLA59iz7dyDH1LwrG0tXxy\nlDkIH9Atnf1OFcb8OhTcD2E0yQchcPsbilxaAIeSMPSEPHZB0XBeMcVW/7FkgGVW\nVGHqhWnEyH2MMubTKV6Y2o89jb9lvKVgJE6aQuKa8Vgo4Bctz2zQeR2EcxHsV2E1\nvwUOMud/AgMBAAECggEAAh3SfgYE8TE+aNrdFGD4uWHsJjixlzVLMA1EQ7RQ0Q/Q\nwwAiCbN1b89Imxh+PEHzPl30DcNjyZxzR1FjDzXFwkdKyEnT1Yx1FIVY/36rmcpC\nwGIz7ZYE+zzX6ectcQ57gpxjTD/b3EP1H5lvRihXINuVjbzT0tKE5472ys9trLE8\nS6lwiGBlYYdVuRY9pDcsQiLcxAXJRwVhRlAtabxQ02Y8+6L1nzCLFU6sRLzw6M4N\nUC1TAIAbvoXsjQsA0jzv2VV1z9V/QlvxlxUZRVaqjWBtT+tj5+LLKUDouSqsch/A\npPU5hoyomDWQEpahsp1laA6TYBfEsFP6gR1X39LL1QKBgQD4dssJ5VX8/xBR2T/+\npTlMqHneleKazRN6dPKgnFsxox5ZSEMJF5IjhwaDn7PjRAo5Ha0VGjYMfW6Snpxw\nMScDxUra6Jz7aZ2OGhuaAt2sjho+lNB9TzBSz/WZTZxgn1SNrPS6QdlgDS9wisZ3\nFX79rTIVHraTAvJcXSiDORDcbQKBgQDYDEF+cUkvUzbODOqgXtg3lXmAwzTrcSZw\nypDd68a5Wq3uwxaPZUT1dBbEp8Vcdw4W2W7qDNubicLvKhpeNSMiYdQXBAjkFqvo\nD0G9F9xpzHUXKjJMYjoLL52Re01uuGXcNtD27I/EZQ/GqgSd3wCCsw36A2IFvl94\n6OaeywFIGwKBgQCQ/5KCFepWmOuHOIeWLgoAaJmmgkYaHO/vGOy3Okgl8ZG2fOtS\nFQVd4mC007CBQqXMqzrlA8TjCRhMTG/zMVwZYTvMANAMEJi34xiUinOfTdaXCvWZ\nC2uiCGbFrntCD/miLHstb1xSJ5+1x+cGe+7+T+LYXHIj3SZfLKaF3fmvCQKBgAnw\nbmbpwUsrEd9i2rxsAJh2CPPyhxG5z+Hqf8Wl3iuSz2Onl/ca2pRMNevwJ/U8COrm\nL+MWmlfKe6xTDIl++lHPnFk+t0X/AQOZCBYx7dL0NALPzyaSckcndqFFwecxFoaO\nAwkJEwge+h3SnonAw54/rInu8+h9vJisZkex4So3AoGBANH0I7q4yxKlx7ruOavM\nUopoVSSpmb0+DjU51iaKXnFyFnmxrCA8HCPxb8Y2wiW4AI6IKYAK60TwogOc+VHE\nC1hL7lSRQhgdd7GwfFH8rnfb28zt8HWzfFIpjhaZiShekSeE/iL2FLLUuyXGHqQY\nSdBcKzZdDiOGUJIUXGGXHF7M\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-zcz08@proyecto-crossfit.iam.gserviceaccount.com",
+  "client_id": "101458366887941386140",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-zcz08%40proyecto-crossfit.iam.gserviceaccount.com"
+}
