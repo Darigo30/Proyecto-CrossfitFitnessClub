@@ -13,11 +13,32 @@
         </b-row>
       </b-container>
     </header>
-    <b-container class="py-5"  v-if="actualUser">
+    <b-container class="py-5" v-if="actualUser">
+      <b-row>
+        <b-col>
+          <div class="card mb-4">
+            <div class="row g-0 d-flex justify-content-center align-items-center">
+              <div class="col-md-4">
+                <img class="musculo" src="../assets/ejercicio.png" alt="Icono">
+              </div>
+              <div class="col-md-4">
+                <div class="card-body">
+                  <h3 class="card-title"><span>Hola, {{ infoUsers.name }}</span></h3>
+                  <h4 class="card-text color-car">Tu plan es: {{ infoUsers.plan.name }}</h4>
+                  <h4 class="card-text color-car">Clases por semana: {{ infoUsers.plan.cant }}</h4>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <p class="bin">Recuerda que solo son 12 cupos por clases! En pandemia es obligatorio el uso de mascarilla en los entrenamientos.</p>
+              </div>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
       <b-row>
         <b-col sm="12">
           <div class="training-schedule-cover">
-            <h3 class="training-schedule-top">{{rangeDateToShow}}</h3>
+            <h3 class="training-schedule-top">{{ rangeDateToShow }}</h3>
           </div>
         </b-col>
       </b-row>
@@ -103,7 +124,7 @@
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
               </div>
-            </template> 
+            </template>
             <template #cell(thursday)="data">
                <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
                 <div v-if="data.item.getCantReservesByDay(4) < cantMaxReserv">
@@ -163,10 +184,9 @@
     <b-container v-else class="py-ag">
       <b-row>
         <b-col>
-          <h4 class="text-center">Para agendar debes estar logeado</h4>
+          <h2 class="text-center text-uppercase fst-italic"><span>Para agendar debes estar logeado</span></h2>
         </b-col>
       </b-row>
-
     </b-container>
   </div>
 </template>
@@ -293,8 +313,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .about-bg {
   padding: 170px 0 170px;
   position: relative;
@@ -311,9 +329,14 @@ span {
   color: #f30b47;
 }
 .training-schedule-cover {
-  max-width: 1100px;
   margin: 0 auto;
   text-align: center;
+}
+.bin{
+  color: #5e5e5e;
+}
+.color-car{
+  color: #7ab0e3;
 }
 .training-schedule-top {
   border-top: 1px solid #f30b47;
@@ -363,7 +386,12 @@ h4 {
 .disabled {
   color: rgb(128, 128, 128);
 }
-.py-ag{
+.musculo{
+  width: 130px;
+  margin: 0 auto;
+  display: block;
+}
+.py-ag {
   padding: 200px;
 }
 

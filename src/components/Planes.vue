@@ -17,8 +17,7 @@
               {{ objeto.ClasesSemanales }}
             </p>
             <div class="mt-5">
-              <a class="btn-agregar"
-              @click=" agregarPlan(objeto)">
+              <a class="btn-agregar" @click="agregarPlan(objeto)">
                 Agregar al Carro
                 <i class="fas fa-shopping-cart"></i>
               </a>
@@ -36,24 +35,24 @@ export default {
   computed: {
     ...mapGetters(["cardsPlanes"]),
     llamadocard() {
-        return this.cantidadCards()
+      return this.cantidadCards();
     },
   },
- methods: {
-     cantidadCards() {
-        if(this.$props.CantidadMostar == "all") {
-            return this.cardsPlanes
-        } else {
-            return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
-        }
-     },
-     ...mapMutations(["agregarPlan"]),
- },
- props: {
-     CantidadMostar: {
-        type: String,
+  methods: {
+    cantidadCards() {
+      if (this.$props.CantidadMostar == "all") {
+        return this.cardsPlanes;
+      } else {
+        return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
+      }
     },
- },
+    ...mapMutations(["agregarPlan"]),
+  },
+  props: {
+    CantidadMostar: {
+      type: String,
+    },
+  },
 };
 </script>
 <style>
@@ -138,8 +137,8 @@ export default {
 }
 .image img {
   position: relative;
-  width: 100%;
-  height: 220px;
+  max-width: 270px;
+  height: 200px;
 }
 .btn-agregar {
   background: #001e3c;
@@ -151,7 +150,7 @@ export default {
   cursor: pointer;
 }
 .btn-agregar:hover {
-    color: #fbfbfb;
+  color: #fbfbfb;
 }
 .svg-inline--fa.fa-check-circle.fa-w-16 {
   margin-right: 15px;

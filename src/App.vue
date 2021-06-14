@@ -8,7 +8,7 @@
 <script>
 import Nav from "@/components/Nav.vue";
 import Footer from "@/components/Footer.vue";
-import { mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "Home",

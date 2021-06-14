@@ -36,7 +36,7 @@ export default class Schedule{
         return this.reservations.filter(reserv => reserv.date.getDay() === day && reserv.hour === this.id);
     }
 
-    
+
     getAtLeastOneReservationMatch(day,userReservations){
         let reservations = this.reservations.filter(reserv => reserv.date.getDay() === day && reserv.hour === this.id);
         let founded = false;

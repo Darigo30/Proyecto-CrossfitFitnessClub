@@ -104,10 +104,12 @@
             </p>
           </b-col>
         </b-row>
-        <Planes CantidadMostar="3"/>
-        <b-row class="pt-4">
+        <Planes CantidadMostar="3" />
+        <b-row class="pt-5">
           <b-col>
-            <router-link class="btn-vert text-center" to="/socio">Ver todos los planes</router-link>
+            <router-link class="btn-vert text-center" to="/socio"
+              >Ver todos los planes</router-link
+            >
           </b-col>
         </b-row>
       </b-container>
@@ -124,16 +126,16 @@
 <script>
 import Planes from "@/components/Planes.vue";
 import Calculadoraibm from "@/components/Calculadoraibm.vue";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "Home",
   components: {
     Planes,
     Calculadoraibm,
   },
-  computed : {
-    ...mapState(['userRole'])
-  }
+  computed: {
+    ...mapState(["userRole"]),
+  },
 };
 </script>
 <style scoped>

@@ -9,7 +9,7 @@
     sameReservation(reservation){
         return this.reservationId(reservation) === this.reservationId(this);
     }
-    
+
     sameReservationDay(reservation){
         return this.reservationDayId(reservation) === this.reservationDayId(this);
     }
