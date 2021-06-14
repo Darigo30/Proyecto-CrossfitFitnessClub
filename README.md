@@ -10,6 +10,24 @@ _Este proyecto trata de crear un ecommerce para compra de planes de Crossfit.. A
 
 ## Link del proyecto: 💻
 [https://proyecto-crossfit.web.app/](https://proyecto-crossfit.web.app/)
+
+## Usuarios de Prueba de Login: 🙌🏻
+Users
+Demonio de Tamania 👺
+user: tasmania@gmail.com
+password: tasmania
+
+Pedro Picapiedra 👊🏻
+user: elmaspicao@gmail.com
+password: reydelmesosoico
+
+Dariana Gómez 👸🏼
+user: darigomez30@gmail.com
+password: 123456
+
+Sergio Toro 🦸🏻‍♂️
+user: storoe1992@gmail.com
+password: 1234567890
 ## Project setup
 ```
 npm install
@@ -43,20 +61,4 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## Usuarios de Prueba de Login
-Users
-Demonio de Tamania
-user: tasmania@gmail.com
-password: tasmania
 
-Pedro Picapiedra
-user: elmaspicao@gmail.com
-password: reydelmesosoico
-
-Dariana Gómez
-user: darigomez30@gmail.com
-password: 123456
-
-Sergio Toro
-user: storoe1992@gmail.com
-password: 1234567890
