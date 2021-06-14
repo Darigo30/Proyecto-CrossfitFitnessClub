@@ -30,53 +30,128 @@
               <h4 class="disabled">{{data.item.hour}}</h4>
             </template>
             <template #cell(monday)="data">
-              <div v-if="data.item.getCantReservesByDay(1) < cantMaxReserv">
-                <h4>{{data.item.getCantReservesByDay(1)}}/{{cantMaxReserv}}</h4>
-                <button v-if="!data.item.getAtLeastOneReservationMatch(1,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
-                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
+                <div v-if="data.item.getCantReservesByDay(1) < cantMaxReserv">
+                  <h4>{{data.item.getCantReservesByDay(1)}}/{{cantMaxReserv}}</h4>
+                  <button v-if="!data.item.getAtLeastOneReservationMatch(1,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                  <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+                </div>
+                <div v-else>
+                  <h4 class="disabled">Sin cupos</h4>
+                </div>
               </div>
-              <div v-else>
-                <h4 class="disabled">Sin cupos</h4>
+              <div v-else-if="actualUser && actualUser.role==='admin'">
+                  <h4>{{data.item.getCantReservesByDay(1)}}/{{cantMaxReserv}}</h4>
+                  <b-button class="btn-resers" :id="data.item.id+data.field.key">
+                        Reservas
+                  </b-button>
+                  <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
+                    <template #title>Usuarios con reserva</template>
+                        <ul v-if="data.item.getUsersReservByDay(1).length > 0">
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(1)" :key="idx">{{user.name}}</li>
+                        </ul>
+                        <h4 v-else class="disabled">Sin reservas</h4>
+                  </b-popover>
               </div>
             </template>
             <template #cell(tuesday)="data">
-              <div v-if="data.item.getCantReservesByDay(2) < cantMaxReserv">
-                <h4>{{data.item.getCantReservesByDay(2)}}/{{cantMaxReserv}}</h4>
-                <button v-if="!data.item.getAtLeastOneReservationMatch(2,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
-                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+              <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
+                <div v-if="data.item.getCantReservesByDay(2) < cantMaxReserv">
+                  <h4>{{data.item.getCantReservesByDay(2)}}/{{cantMaxReserv}}</h4>
+                  <button v-if="!data.item.getAtLeastOneReservationMatch(2,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                  <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+                </div>
+                <div v-else>
+                  <h4 class="disabled">Sin cupos</h4>
+                </div>
               </div>
-              <div v-else>
-                <h4 class="disabled">Sin cupos</h4>
+              <div v-else-if="actualUser && actualUser.role==='admin'">
+                  <h4>{{data.item.getCantReservesByDay(2)}}/{{cantMaxReserv}}</h4>
+                  <b-button class="btn-resers" :id="data.item.id+data.field.key">
+                        Reservas
+                  </b-button>
+                  <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
+                    <template #title>Usuarios con reserva</template>
+                        <ul v-if="data.item.getUsersReservByDay(2).length > 0">
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(2)" :key="idx">{{user.name}}</li>
+                        </ul>
+                        <h4 v-else class="disabled">Sin reservas</h4>
+                  </b-popover>
               </div>
             </template>
             <template #cell(wednesday)="data">
-              <div v-if="data.item.getCantReservesByDay(3) < cantMaxReserv">
-                <h4>{{data.item.getCantReservesByDay(3)}}/{{cantMaxReserv}}</h4>
-                <button v-if="!data.item.getAtLeastOneReservationMatch(3,getActualUserReservation)"  class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
-                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+               <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
+                <div v-if="data.item.getCantReservesByDay(3) < cantMaxReserv">
+                  <h4>{{data.item.getCantReservesByDay(3)}}/{{cantMaxReserv}}</h4>
+                  <button v-if="!data.item.getAtLeastOneReservationMatch(3,getActualUserReservation)"  class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                  <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+                </div>
+                <div v-else>
+                  <h4 class="disabled">Sin cupos</h4>
+                </div>
               </div>
-              <div v-else>
-                <h4 class="disabled">Sin cupos</h4>
+              <div v-else-if="actualUser && actualUser.role==='admin'">
+                  <h4>{{data.item.getCantReservesByDay(3)}}/{{cantMaxReserv}}</h4>
+                  <b-button class="btn-resers" :id="data.item.id+data.field.key">
+                        Reservas
+                  </b-button>
+                  <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
+                    <template #title>Usuarios con reserva</template>
+                        <ul v-if="data.item.getUsersReservByDay(3).length > 0">
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(3)" :key="idx">{{user.name}}</li>
+                        </ul>
+                        <h4 v-else class="disabled">Sin reservas</h4>
+                  </b-popover>
               </div>
             </template> 
             <template #cell(thursday)="data">
-              <div v-if="data.item.getCantReservesByDay(4) < cantMaxReserv">
-                <h4>{{data.item.getCantReservesByDay(4)}}/{{cantMaxReserv}}</h4>
-                <button v-if="!data.item.getAtLeastOneReservationMatch(4,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
-                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+               <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
+                <div v-if="data.item.getCantReservesByDay(4) < cantMaxReserv">
+                  <h4>{{data.item.getCantReservesByDay(4)}}/{{cantMaxReserv}}</h4>
+                  <button v-if="!data.item.getAtLeastOneReservationMatch(4,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                  <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+                </div>
+                <div v-else>
+                  <h4 class="disabled">Sin cupos</h4>
+                </div>
               </div>
-              <div v-else>
-                <h4 class="disabled">Sin cupos</h4>
+              <div v-else-if="actualUser && actualUser.role==='admin'">
+                  <h4>{{data.item.getCantReservesByDay(4)}}/{{cantMaxReserv}}</h4>
+                  <b-button class="btn-resers" :id="data.item.id+data.field.key">
+                        Reservas
+                  </b-button>
+                  <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
+                    <template #title>Usuarios con reserva</template>
+                        <ul v-if="data.item.getUsersReservByDay(4).length > 0">
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(4)" :key="idx">{{user.name}}</li>
+                        </ul>
+                        <h4 v-else class="disabled">Sin reservas</h4>
+                  </b-popover>
               </div>
             </template>
             <template #cell(friday)="data">
-              <div v-if="data.item.getCantReservesByDay(5) < cantMaxReserv">
-                <h4>{{data.item.getCantReservesByDay(5)}}/{{cantMaxReserv}}</h4>
-                <button v-if="!data.item.getAtLeastOneReservationMatch(5,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
-                <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+               <div v-if="actualUser && actualUser.role==='user'"  class="role_user">
+                <div v-if="data.item.getCantReservesByDay(5) < cantMaxReserv">
+                  <h4>{{data.item.getCantReservesByDay(5)}}/{{cantMaxReserv}}</h4>
+                  <button v-if="!data.item.getAtLeastOneReservationMatch(5,getActualUserReservation)" class = "btn-reser" @click="reserve(data.item.id,data.field.key)">Reservar</button>
+                  <button v-else @click="cancel(data.item.id,data.field.key)" class="btn-disa">Cancelar</button>
+                </div>
+                <div v-else>
+                  <h4 class="disabled">Sin cupos</h4>
+                </div>
               </div>
-              <div v-else>
-                <h4 class="disabled">Sin cupos</h4>
+              <div v-else-if="actualUser && actualUser.role==='admin'">
+                  <h4>{{data.item.getCantReservesByDay(5)}}/{{cantMaxReserv}}</h4>
+                  <b-button class="btn-resers" :id="data.item.id+data.field.key">
+                        Reservas
+                  </b-button>
+                  <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
+                    <template #title>Usuarios con reserva</template>
+                        <ul v-if="data.item.getUsersReservByDay(5).length > 0">
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(5)" :key="idx">{{user.name}}</li>
+                        </ul>
+                        <h4 v-else class="disabled">Sin reservas</h4>
+                  </b-popover>
               </div>
             </template>
           </b-table>
@@ -137,10 +212,14 @@ export default {
     methods: {
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
       reserve(hour,day){
+        try{
           let dateIndex = this.getIndexByDayId(day);
-          let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
-          this.addReservationToUser(reservation);
+          let reservation = new Reservation(hour,day,this.availablesDates[dateIndex],this.actualUser);
+          this.addReservationToUser({reservation:reservation,dates:this.availablesDates});
           this.loadReservas();
+        }catch(e){
+          alert(e);
+        }
       },
       cancel(hour,day){
         let dateIndex = this.getIndexByDayId(day);

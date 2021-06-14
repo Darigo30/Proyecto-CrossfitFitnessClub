@@ -14,13 +14,27 @@ export default new Vuex.Store({
     plan: [],
     users: [
       new User(
-      "Sergio",
+      "Sergio Toro",
       "storoe1992@gmail.com",
-      new Plan("4 por semana",4),null),
+      null,null,'c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646','admin'),
       new User(
-        "Dariana",
+        "Dariana Gómez",
         "darigomez30@gmail.com",
-        new Plan("4 por semana",4),null)
+        new Plan("4 por semana",4),
+        null,
+        '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'),
+      new User(
+        "Pedro Picapiedra",
+        "elmaspicao@gmail.com",
+        new Plan("4 por semana",4),
+        null,
+        'ba0d8e07c173dd0b1a397d452ccc53c7a3dc5f079032cc4c7fdb8be0d51bf439'),
+        new User(
+          "Demonio Tasmania",
+          "tasmania@gmail.com",
+          null,
+          null,
+          '95dc60d770dc95a7432111ab1bfb57c0494b36716629e47471e197256e9945a2')
       ],
     planes: [],
     carrito: [],
@@ -32,9 +46,10 @@ export default new Vuex.Store({
     setupUser(state,user){
       state.actualUser = user;
     },
-    addReservationToUser(state,reservation){
+    addReservationToUser(state,payload){
       if(state.actualUser != null){
-        state.actualUser.addReservation(reservation);
+        state.actualUser.validateAvailableReserveIntoWeekByHiredPlan(payload.dates)
+        state.actualUser.addReservation(payload.reservation);
       }else console.log("No hay usuario logueado");
     },
     deleteUserReservation(state,reservation){

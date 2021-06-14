@@ -71,6 +71,7 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex';
+import sjcl from 'sjcl';
 
 export default {
   name: 'Login',
@@ -84,9 +85,14 @@ export default {
     
     ...mapMutations(['setupUser']),
     login() {
+      try{
       let user = this.getUserById(this.username);
       if(user!=null)
       {
+        var bitArray = sjcl.hash.sha256.hash(this.password);
+        var digest = sjcl.codec.hex.fromBits(bitArray);
+        if(user.password !== digest)
+          throw 'Usuario o contraseña inválidos'
         this.setupUser(user);
         console.log("ultima pagina:" + this.lastVisitedPage)
         if(this.lastVisitedPage){
@@ -94,6 +100,9 @@ export default {
         }else{
           this.$router.push("/home");
         }
+      }
+      }catch(e){
+        alert(e);
       }
     }
   },

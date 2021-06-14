@@ -23,8 +23,17 @@ export default class Schedule{
      * @param {*} day 
      */
     getCantReservesByDay(day){
-        let reservations = this.reservations.filter(reserv => reserv.date.getDay() === day && reserv.hour === this.id);
+        let reservations = this.getReservasByDay(day);
         return reservations.length;
+    }
+
+    getUsersReservByDay(day){
+        let reservations = this.getReservasByDay(day);
+        return reservations.map(reservation => reservation.user);
+    }
+
+    getReservasByDay(day){
+        return this.reservations.filter(reserv => reserv.date.getDay() === day && reserv.hour === this.id);
     }
 
     
