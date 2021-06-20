@@ -1,6 +1,6 @@
 <template>
   <div>
-    <footer>Copyright © Crossfit Fitness Club - 2021</footer>
+    <footer>Copyright © Crossfit Fitness Club - 2021 By: Dari & Sergio </footer>
   </div>
 </template>
 <script>

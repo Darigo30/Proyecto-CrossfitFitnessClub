@@ -68,7 +68,12 @@
                     >Contacto</router-link
                   >
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" v-if="actualUser && actualUser.role === 'admin'">
+                  <router-link class="nav-link agend" to="/agendar"
+                    >Admin</router-link
+                  >
+                </li>
+                <li class="nav-item" v-else>
                   <router-link class="nav-link agend" to="/agendar"
                     >Agenda Clases</router-link
                   >
@@ -83,7 +88,7 @@
                   to="/carrito"
                 >
                   <i class="fas fa-shopping-bag"></i>
-                  <span>{{ cantidadCarrito }}</span>
+                  <span class="cantcarri">{{ cantidadCarrito }}</span>
                 </div>
               </div>
               <div class="icono-login" v-if="!isLogeado">
@@ -92,8 +97,14 @@
                 </router-link>
               </div>
               <div class="icono-login" v-else>
-                <b-dropdown id="dropdown-1" text="Cerrar Sesión" class="m-md-2 btn-drop">
-                  <b-dropdown-item @click ="cerrarSesion()">Salir</b-dropdown-item>
+                <b-dropdown
+                  id="dropdown-1"
+                  text="Cerrar Sesión"
+                  class="m-md-2 btn-drop"
+                >
+                  <b-dropdown-item @click="cerrarSesion()"
+                    >Salir</b-dropdown-item
+                  >
                 </b-dropdown>
               </div>
 
@@ -109,10 +120,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   name: "Nav",
   computed: {
+    ...mapState(["actualUser"]),
     ...mapGetters(["cantidadCarrito", "isLogeado"]),
   },
   methods: {
@@ -135,8 +147,8 @@ export default {
 .navbar {
   padding-top: 0;
 }
-.dropdown-toggle{
-  background: transparent!important;
+.dropdown-toggle {
+  background: transparent !important;
   border: 1px solid #f30b47;
   padding: 12px;
   border-radius: 0px;
@@ -297,6 +309,9 @@ export default {
   position: absolute;
   width: 100%;
   z-index: 9;
+}
+.cantcarri{
+  color: #fff;
 }
 .navbar-collapse {
   flex-grow: 0;
