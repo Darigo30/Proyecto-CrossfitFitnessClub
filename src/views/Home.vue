@@ -180,4 +180,7 @@ span {
   color: #f30b47;
   font-style: italic;
 }
+.btn-vert:hover{
+  color: #fff;
+}
 </style>

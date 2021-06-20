@@ -55,7 +55,9 @@
                 <i class="fas fa-check-circle"></i> Clases por semana:
                 {{ comprar.clasessemanales }}
               </p>
-              <button class="btn btn-danger" @click="eliminarCarrito">Eliminar plan</button>
+              <button class="btn btn-danger" @click="eliminarCarrito">
+                Eliminar plan
+              </button>
             </div>
           </div>
         </b-col>

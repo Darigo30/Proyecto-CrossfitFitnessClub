@@ -17,10 +17,11 @@ export default {
     Footer,
   },
   methods: {
-    ...mapActions(["getDataApi"]),
+    ...mapActions(["getDataApi", "setDataPlanes"]),
   },
   created() {
     this.getDataApi();
+    this.setDataPlanes();
   },
 };
 </script>
