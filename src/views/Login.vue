@@ -71,7 +71,8 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex';
-import sjcl from 'sjcl';
+import Firebase from  'firebase'
+import User from '../classes/user'
 
 export default {
   name: 'Login',

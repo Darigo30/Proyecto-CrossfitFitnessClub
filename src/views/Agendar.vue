@@ -253,6 +253,7 @@ import Agregar from "@/components/Agregar.vue";
 import Editar from "@/components/Editar.vue";
 import User from '../classes/user';
 import { mapMutations, mapGetters, mapState } from "vuex";
+import Firebase from 'firebase'
 
 export default {
     name: 'Agenda',
@@ -356,7 +357,17 @@ export default {
             fechas.push(dateToAdd);
         }
         return fechas;
-      }
+      },
+      verPlanes() {
+            this.activarTablaPlanes = true;
+          },
+          verAgregarPlanes() {
+            this.verTablaPlanes = true;
+          },
+          guardarData(){
+             this.alertaAgreado = true;
+             setTimeout(() => { this.alertaAgreado = false } , 9000);
+          }
     },
     computed: {
       ...mapState(["actualUser","titulos", "planes"]),
@@ -383,16 +394,6 @@ export default {
         let anio = endDate.getFullYear();
         return `${initDate.getDate()}-${endDate.getDate()} ${monthName}, ${anio}`
       },
-      verPlanes() {
-            this.activarTablaPlanes = true;
-          },
-          verAgregarPlanes() {
-            this.verTablaPlanes = true;
-          },
-          guardarData(){
-             this.alertaAgreado = true;
-             setTimeout(() => { this.alertaAgreado = false } , 9000);
-          }
     },
     created () {
       this.availablesDates = this.getAvailablesDates();
