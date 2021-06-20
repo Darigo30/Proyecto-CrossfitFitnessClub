@@ -199,6 +199,7 @@
 
 import Schedule from '../classes/schedule';
 import Reservation from '../classes/reservation';
+import User from '../classes/user';
 import Firebase from 'firebase'
 import {mapMutations, mapGetters, mapState} from 'vuex';
 
@@ -240,8 +241,9 @@ export default {
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
      getReservations: async () => {
         let db = Firebase.firestore();
-        let users = await db.collection("usuarios").get();
-        let reservations = users.docs.flatMap(user => user.reservation ? user.reservation : []);
+        let usersDB = await db.collection("usuarios").get();
+        let users =  usersDB.docs.map(userDB => User.mapUser(userDB))
+        let reservations = users.flatMap(user => user.reservation ? user.reservation : []);
         return reservations;
       },
       reserve(hour,day){
