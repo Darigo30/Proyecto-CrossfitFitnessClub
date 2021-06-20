@@ -8,6 +8,11 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "./assets/css/style.css";
+import Firebase from 'firebase';
+
+import firebaseConfig from '../firebase'
+
+Firebase.initializeApp(firebaseConfig)
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

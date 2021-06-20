@@ -26,5 +26,11 @@
         return `${dia}${mes}${anio}`;
     }
 
+    static mapReservation(reservation){
+        if(!reservation)
+            throw 'Reservation to map can be null'
+        return new Reservation(reservation.hour,reservation.day,reservation.date,null);
+    }
+
 
 }

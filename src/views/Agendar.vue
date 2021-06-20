@@ -199,7 +199,9 @@
 
 import Schedule from '../classes/schedule';
 import Reservation from '../classes/reservation';
+import Firebase from 'firebase'
 import {mapMutations, mapGetters, mapState} from 'vuex';
+
 
 export default {
     name: 'Agenda',
@@ -236,6 +238,12 @@ export default {
   },
     methods: {
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
+     getReservations: async () => {
+        let db = Firebase.firestore();
+        let users = await db.collection("usuarios").get();
+        let reservations = users.docs.flatMap(user => user.reservation ? user.reservation : []);
+        return reservations;
+      },
       reserve(hour,day){
         try{
           let dateIndex = this.getIndexByDayId(day);
@@ -263,15 +271,20 @@ export default {
           } 
           return dateIndex;
       },
-      loadReservas(){
+      async loadReservas(){
         if(this.$refs.table){
-          this.tableItems.forEach(this.setupScheduleReservation)
+          console.log("Table Items at this moment");
+          console.log(this.tableItems);
+          for(let schedule of this.tableItems){
+            await this.setupScheduleReservation(schedule);
+          }
           this.$refs.table.refresh();
         }
       },
-      setupScheduleReservation(schedule){
-        schedule.reservations = this.getReservations
-        .filter(reserv => reserv.hour === schedule.id);
+      async setupScheduleReservation(schedule){
+        let reservations = await this.getReservations();
+        schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
+        
       },
       getAvailablesDates() {
         let fechas = [];
@@ -286,7 +299,7 @@ export default {
     },
     computed: {
       ...mapState(["actualUser"]),
-      ...mapGetters(['getReservations','getActualUserReservation','infoUsers']),
+      ...mapGetters(['getActualUserReservation','infoUsers']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
         let endDate = this.availablesDates[this.availablesDates.length - 1]

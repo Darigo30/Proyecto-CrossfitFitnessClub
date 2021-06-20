@@ -70,8 +70,9 @@
 </template>
 <script>
 
+import Firebase from 'firebase';
+import User from '../classes/user'
 import {mapState, mapMutations, mapGetters} from 'vuex';
-import sjcl from 'sjcl';
 
 export default {
   name: 'Login',
@@ -83,20 +84,20 @@ export default {
   },
   methods: {
     ...mapMutations(["setupUser"]),
-    login() {
+    async login() {
       try{
-      let user = this.getUserById(this.username);
-      if (user != null) {
-        var bitArray = sjcl.hash.sha256.hash(this.password);
-        var digest = sjcl.codec.hex.fromBits(bitArray);
-        if(user.password !== digest)
-          throw 'Usuario o contraseña inválidos'
-        this.setupUser(user);
-        console.log("ultima pagina:" + this.lastVisitedPage);
-        if (this.lastVisitedPage) {
-          this.$router.push({ name: this.lastVisitedPage });
-        } else {
-          this.$router.push("/home");
+      let auth = await Firebase.auth().signInWithEmailAndPassword(this.username,this.password);
+      if(auth){
+        let db = Firebase.firestore();
+        let query = await db.collection("usuarios").where("email","==",this.username).get();
+        if (query && !query.empty) {
+          let userDB = query.docs[0].data()
+          this.setupUser(User.mapUser(userDB));
+          if (this.lastVisitedPage) {
+            this.$router.push({ name: this.lastVisitedPage });
+          } else {
+            this.$router.push("/home");
+          }
         }
       }
       }catch(e){

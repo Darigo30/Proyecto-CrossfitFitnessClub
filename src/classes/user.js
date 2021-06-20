@@ -1,11 +1,13 @@
+import Plan from './plan';
+import Reservation from './reservation';
+
 export default class User{
-    constructor(name,user,plan,reservation,password,role = 'user'){
+    constructor(name,user,plan,reservation,role = 'user'){
         this.name = name;
         this.user = user;
         this.plan = plan;
         this.reservation = reservation == null ? [] : reservation;
         this.role = role
-        this.password = password;
     }
 
     addReservation(reservation){
@@ -50,6 +52,12 @@ export default class User{
         let mes = date.getMonth()+1;
         let anio = date.getFullYear();
         return `${dia}${mes}${anio}`;
+    }
+
+    static mapUser(extUser){
+        let userPlan = extUser.plan ? Plan.mapPlan(extUser.plan) : null;
+        let reservations = extUser.reservations ? extUser.reservations.map(reserv => Reservation.mapReservation(reserv)) : []
+        return new User(extUser.nombre,extUser.email,userPlan,reservations,extUser.rol);
     }
 
     
