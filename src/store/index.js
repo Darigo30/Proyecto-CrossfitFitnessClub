@@ -1,15 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+//import axios from "axios";
 import router from "@/router";
 import agenda from './modules/agenda'
+import { db } from "../../firebase";
 
 Vue.use(Vuex);
 
 import Plan from '../classes/plan'
 
 export default new Vuex.Store({
-
   state: {
     userRole: "viewer",
     actualUser: null,
@@ -19,7 +19,36 @@ export default new Vuex.Store({
     carrito: [],
     ventas: [],
     lastVisitedPage: "",
-    pagado: false
+    pagado: false,
+    titulos: [
+      {
+        label: "N° Clases",
+        key: "ClasesSemanales",
+      },
+      {
+        label: "Imagen",
+        key: "imagen",
+      },
+      {
+        label: "Nombre Plan",
+        key: "nombrePlan",
+      },
+      {
+        label: "Valor Mensual",
+        key: "valorMensual",
+      },
+      {
+        key: "actions",
+        label: "Acciones",
+      },
+    ],
+    editar: false,
+    EditarPlan: {
+      nombrePlan: "",
+      valorMensual: "",
+      ClasesSemanales: "",
+      imagen: "",
+    },
   },
   mutations: {
     setupUser(state,user){
@@ -96,6 +125,36 @@ export default new Vuex.Store({
     },
     eliminarCarrito(state) {
       state.carrito = [];
+    },
+    //guardar planes en BD Firebase desde API inicial
+    guardarPlanesDB(state) {
+      console.log(state);
+    },
+    booleanEditar(state) {
+      state.editar = true;
+    },
+    editarPlanesTabla(state, payload) {
+      const editado = payload;
+      state.EditarPlan = editado;
+    },
+    actualizarPlanes(state, payload) {
+      const result = state.planes.filter((plan) => plan.id != payload.id);
+      result.push(payload);
+      state.planes = result;
+    },
+    borrarProducto(state, payload) {
+      const borrarPlanFil = payload;
+      if (!borrarPlanFil) return;
+      let borradoFila = state.planes.filter(
+        (plagin) => plagin.id != payload.id
+      );
+      state.planes = borradoFila;
+      console.log(borradoFila);
+    },
+    agregarPlanalState(state, payload) {
+      const existePlan = state.planes.find((planadd) => planadd.id === payload.id);
+       // Si no existe ingresar a la base de datos.
+       if (!existePlan) state.planes.push(payload);
     }
   },
   getters: {
@@ -132,16 +191,102 @@ export default new Vuex.Store({
   },
   actions: {
     async getDataApi({ commit }) {
-      const url =
-        "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming♥
+      //se saca llamada de api con axios para ocupar el get de firebase
+      // const url =
+      //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
-        const req = await axios(url);
-        const planesAxi = req.data;
-        commit("cargarDatos", planesAxi);
-        return planesAxi;
+        const PlanesGet = [];
+        const fire = await db.collection("planes");
+        fire.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            PlanesGet.push(doc.data());
+          });
+        });
+        commit("cargarDatos", PlanesGet);
       } catch (error) {
-        console.log(error, "error al obtener datos");
+        console.log(error);
       }
+    },
+    async setDataPlanes({ commit }) {
+      commit("guardarPlanesDB");
+    },
+    async deleteProducto({ commit }, payload) {
+      const borrarPlan = payload;
+      if (!borrarPlan) return;
+
+      // Eliminar desde Firebase
+      try {
+        let collectionRef = db.collection("planes");
+        collectionRef
+          .where("id", "==", payload.id)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              doc.ref
+                .delete()
+                .then(() => {
+                  console.log("el doc fue borrado");
+                })
+                .catch(function (error) {
+                  console.error("ha ocurrido un error al borrar: ", error);
+                });
+            });
+          })
+          .catch(function (error) {
+            console.log("Error al obtener el documento: ", error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      // Eliminar desde Vuex
+      commit("borrarProducto", borrarPlan);
+    },
+     //actualizar
+     async updateProducto({ commit }, payload) {
+      const planEditarF = payload;
+      if (!planEditarF) return;
+      // Firebase
+      try {
+
+        let collectionRef = db.collection("planes");
+        collectionRef
+          .where("id", "==", payload.id)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              doc.ref
+                .update({
+                  nombrePlan: planEditarF.nombrePlan,
+                  valorMensual: planEditarF.valorMensual,
+                  ClasesSemanales: planEditarF.ClasesSemanales,
+                  imagen: planEditarF.imagen,
+                  id: planEditarF.id,
+                })
+                .then(() => {
+                  console.log("el doc fue actualizado");
+                  commit("actualizarPlanes", payload);
+                  return true;
+                })
+                .catch(function (error) {
+                  console.error("ha ocurrido un error al actualizar: ", error);
+                  return false;
+                });
+            });
+          })
+          .catch(function (error) {
+            console.log("Error al obtener el documento: ", error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    //Agrego nuevo producto
+    async crearNuevoPlan({ commit }, payload) {
+      const nuevo = payload;
+      if (!nuevo) return;
+     // Actualizar el state
+      commit("agregarPlanalState", nuevo);
+      await db.collection("planes").add(nuevo);
     },
   },
   modules : {

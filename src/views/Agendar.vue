@@ -5,7 +5,13 @@
         <b-row>
           <b-col cols="12">
             <div class="site-heading">
-              <h1 class="text-white text-uppercase fst-italic">
+              <h1
+                v-if="actualUser && actualUser.role === 'admin'"
+                class="text-white text-uppercase fst-italic"
+              >
+                Bienvenido Admin
+              </h1>
+              <h1 v-else class="text-white text-uppercase fst-italic">
                 Agenda tus <span>Clases</span>
               </h1>
             </div>
@@ -17,26 +23,70 @@
       <b-row>
         <b-col>
           <div class="card mb-4">
-            <div class="row g-0 d-flex justify-content-center align-items-center">
+            <div
+              class="row g-0 d-flex justify-content-center align-items-center"
+            >
               <div class="col-md-4">
-                <img class="musculo" src="../assets/ejercicio.png" alt="Icono">
+                <img
+                  class="musculo"
+                  src="../assets/ejercicio.png"
+                  alt="Icono"
+                />
               </div>
               <div v-if="actualUser.plan" class="col-md-4">
                 <div class="card-body">
-                  <h3 class="card-title"><span>Hola, {{ infoUsers.name }}</span></h3>
-                  <h4 class="card-text color-car">Tu plan es: {{ infoUsers.plan.name }}</h4>
-                  <h4 class="card-text color-car">Clases por semana: {{ infoUsers.plan.cant }}</h4>
+                  <h3 class="card-title">
+                    <span>Hola, {{ infoUsers.name }}</span>
+                  </h3>
+                  <h4 class="card-text color-car">
+                    Tu plan es: {{ infoUsers.plan.name }}
+                  </h4>
+                  <h4 class="card-text color-car">
+                    Clases por semana: {{ infoUsers.plan.cant }}
+                  </h4>
+                </div>
+              </div>
+              <div v-else-if="actualUser.role === 'admin'" class="col-md-4">
+                <div class="card-body">
+                  <h3 class="card-title">
+                    <b-button @click="verPlanes" variant="outline-success" class="me-3 w-100 mb-2">Ver Planes</b-button>
+                    <b-button @click="verAgregarPlanes" variant="success" class="w-100">Agregar Planes</b-button
+                    >
+                  </h3>
                 </div>
               </div>
               <div v-else class="col-md-4">
                 <div class="card-body">
-                  <h3 class="card-title"><span>Hola actualmente no tienes un plan contratado</span></h3>
+                  <h3 class="card-title">
+                    <span>Hola actualmente no tienes un plan contratado</span>
+                  </h3>
                 </div>
               </div>
-              <div class="col-md-4">
-                <p class="bin">Recuerda que solo son 12 cupos por clases! En pandemia es obligatorio el uso de mascarilla en los entrenamientos.</p>
+              <div v-if="actualUser.role !== 'admin'" class="col-md-4">
+                <p class="bin">
+                  Recuerda que solo son 12 cupos por clases! En pandemia es
+                  obligatorio el uso de mascarilla en los entrenamientos.
+                </p>
               </div>
             </div>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row v-if="actualUser.role === 'admin'">
+        <b-col sm="12">
+          <Tabla v-if="activarTablaPlanes" :editarData="()=> {activaEditar = true; }" :filas="planes" :encabezados="titulos" />
+        </b-col>
+        <b-col sm="12">
+          <Editar :resultado="() => { activaEditar = false;}" v-if="activaEditar"/>
+        </b-col>
+      </b-row>
+      <b-row v-if="actualUser.role === 'admin'">
+        <b-col sm="12">
+          <Agregar  v-if="verTablaPlanes" :guardarData="guardarData"/>
+        </b-col>
+         <b-col cols="12" v-if="alertaAgreado">
+          <div class="alert alert-success" role="alert">
+            ¡Listo, plan agregado, revisa tus planes en la tabla!
           </div>
         </b-col>
       </b-row>
@@ -196,13 +246,13 @@
   </div>
 </template>
 <script>
-
-import Schedule from '../classes/schedule';
-import Reservation from '../classes/reservation';
+import Schedule from "../classes/schedule";
+import Reservation from "../classes/reservation";
+import Tabla from "@/components/Tabla.vue";
+import Agregar from "@/components/Agregar.vue";
+import Editar from "@/components/Editar.vue";
 import User from '../classes/user';
-import Firebase from 'firebase'
-import {mapMutations, mapGetters, mapState} from 'vuex';
-
+import { mapMutations, mapGetters, mapState } from "vuex";
 
 export default {
     name: 'Agenda',
@@ -210,6 +260,10 @@ export default {
       return {
         cantMaxReserv : 12,
         availablesDates: [],
+        activaEditar: false,
+        activarTablaPlanes: false,
+        alertaAgreado: false,
+        verTablaPlanes: false,
         tableItems : [
             new Schedule("0630","6:30am"),
             new Schedule("0745","7:45am"),
@@ -227,6 +281,11 @@ export default {
         ]
       }
     },
+     components: {
+        Tabla,
+        Editar,
+        Agregar,
+      },
     beforeRouteEnter(to,from,next){
     next( vm => {
         try{
@@ -239,13 +298,13 @@ export default {
   },
     methods: {
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
-     getReservations: async () => {
-        let db = Firebase.firestore();
-        let usersDB = await db.collection("usuarios").get();
-        let users =  usersDB.docs.map(userDB => User.mapUser(userDB))
-        let reservations = users.flatMap(user => user.reservation ? user.reservation : []);
-        return reservations;
-      },
+      getReservations: async () => {
+              let db = Firebase.firestore();
+              let usersDB = await db.collection("usuarios").get();
+              let users =  usersDB.docs.map(userDB => User.mapUser(userDB))
+              let reservations = users.flatMap(user => user.reservation ? user.reservation : []);
+              return reservations;
+            },
       reserve(hour,day){
         try{
           let dateIndex = this.getIndexByDayId(day);
@@ -270,24 +329,24 @@ export default {
             case 'wednesday' : dateIndex = 2;break;
             case 'thursday' : dateIndex = 3;break;
             case 'friday' : dateIndex = 4;break;
-          } 
+          }
           return dateIndex;
       },
-      async loadReservas(){
-        if(this.$refs.table){
-          console.log("Table Items at this moment");
-          console.log(this.tableItems);
-          for(let schedule of this.tableItems){
-            await this.setupScheduleReservation(schedule);
-          }
-          this.$refs.table.refresh();
-        }
-      },
-      async setupScheduleReservation(schedule){
-        let reservations = await this.getReservations();
-        schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
-        
-      },
+       async loadReservas(){
+              if(this.$refs.table){
+                console.log("Table Items at this moment");
+                console.log(this.tableItems);
+                for(let schedule of this.tableItems){
+                  await this.setupScheduleReservation(schedule);
+                }
+                this.$refs.table.refresh();
+              }
+            },
+            async setupScheduleReservation(schedule){
+              let reservations = await this.getReservations();
+              schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
+
+            },
       getAvailablesDates() {
         let fechas = [];
         for(let i = 1; i < 6;i++){
@@ -300,7 +359,7 @@ export default {
       }
     },
     computed: {
-      ...mapState(["actualUser"]),
+      ...mapState(["actualUser","titulos", "planes"]),
       ...mapGetters(['getActualUserReservation','infoUsers']),
       rangeDateToShow(){
         let initDate = this.availablesDates[0];
@@ -322,8 +381,18 @@ export default {
           case 12: monthName ='Diciembre';break;
         }
         let anio = endDate.getFullYear();
-        return `${initDate.getDate()}-${endDate.getDate()} ${monthName}, ${anio}` 
-      }
+        return `${initDate.getDate()}-${endDate.getDate()} ${monthName}, ${anio}`
+      },
+      verPlanes() {
+            this.activarTablaPlanes = true;
+          },
+          verAgregarPlanes() {
+            this.verTablaPlanes = true;
+          },
+          guardarData(){
+             this.alertaAgreado = true;
+             setTimeout(() => { this.alertaAgreado = false } , 9000);
+          }
     },
     created () {
       this.availablesDates = this.getAvailablesDates();

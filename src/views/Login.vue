@@ -70,9 +70,8 @@
 </template>
 <script>
 
-import Firebase from 'firebase';
-import User from '../classes/user'
 import {mapState, mapMutations, mapGetters} from 'vuex';
+import sjcl from 'sjcl';
 
 export default {
   name: 'Login',
