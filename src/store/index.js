@@ -8,6 +8,7 @@ import { db } from "../../firebase";
 Vue.use(Vuex);
 
 import Plan from '../classes/plan'
+import User from '../classes/user'
 
 export default new Vuex.Store({
   state: {
@@ -190,6 +191,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async updateUser({ commit },user){
+      try{
+        console.log(commit)
+      let userDB = User.reverseUser(user);
+      await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
+      }catch(e){
+        console.error(e);
+        alert("Ocurrió un error mientras se actualizaba el usuario")
+      }
+  },
     async getDataApi({ commit }) {
       //se saca llamada de api con axios para ocupar el get de firebase
       // const url =
@@ -201,8 +212,9 @@ export default new Vuex.Store({
           querySnapshot.forEach((doc) => {
             PlanesGet.push(doc.data());
           });
-        });
-        commit("cargarDatos", PlanesGet);
+          commit("cargarDatos", PlanesGet);
+        }).catch(e => alert(e));
+        
       } catch (error) {
         console.log(error);
       }

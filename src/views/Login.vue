@@ -91,8 +91,10 @@ export default {
         let db = Firebase.firestore();
         let query = await db.collection("usuarios").where("email","==",this.username).get();
         if (query && !query.empty) {
-          let userDB = query.docs[0].data()
-          this.setupUser(User.mapUser(userDB));
+          let userDB = query.docs[0].data();
+          userDB.id = query.docs[0].id;
+          let mappedUser = User.mapUser(userDB);
+          this.setupUser(mappedUser);
           if (this.lastVisitedPage) {
             this.$router.push({ name: this.lastVisitedPage });
           } else {

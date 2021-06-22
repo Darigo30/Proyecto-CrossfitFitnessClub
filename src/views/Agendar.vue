@@ -124,7 +124,7 @@
                   <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
                     <template #title>Usuarios con reserva</template>
                         <ul v-if="data.item.getUsersReservByDay(1).length > 0">
-                          <li v-for="(user,idx) in data.item.getUsersReservByDay(1)" :key="idx">{{user.name}}</li>
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(1)" :key="idx">{{user}}</li>
                         </ul>
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
@@ -149,7 +149,7 @@
                   <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
                     <template #title>Usuarios con reserva</template>
                         <ul v-if="data.item.getUsersReservByDay(2).length > 0">
-                          <li v-for="(user,idx) in data.item.getUsersReservByDay(2)" :key="idx">{{user.name}}</li>
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(2)" :key="idx">{{user}}</li>
                         </ul>
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
@@ -174,7 +174,7 @@
                   <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
                     <template #title>Usuarios con reserva</template>
                         <ul v-if="data.item.getUsersReservByDay(3).length > 0">
-                          <li v-for="(user,idx) in data.item.getUsersReservByDay(3)" :key="idx">{{user.name}}</li>
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(3)" :key="idx">{{user}}</li>
                         </ul>
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
@@ -199,7 +199,7 @@
                   <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
                     <template #title>Usuarios con reserva</template>
                         <ul v-if="data.item.getUsersReservByDay(4).length > 0">
-                          <li v-for="(user,idx) in data.item.getUsersReservByDay(4)" :key="idx">{{user.name}}</li>
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(4)" :key="idx">{{user}}</li>
                         </ul>
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
@@ -224,7 +224,7 @@
                   <b-popover :target="data.item.id+data.field.key" triggers="hover" placement="top">
                     <template #title>Usuarios con reserva</template>
                         <ul v-if="data.item.getUsersReservByDay(5).length > 0">
-                          <li v-for="(user,idx) in data.item.getUsersReservByDay(5)" :key="idx">{{user.name}}</li>
+                          <li v-for="(user,idx) in data.item.getUsersReservByDay(5)" :key="idx">{{user}}</li>
                         </ul>
                         <h4 v-else class="disabled">Sin reservas</h4>
                   </b-popover>
@@ -252,7 +252,7 @@ import Tabla from "@/components/Tabla.vue";
 import Agregar from "@/components/Agregar.vue";
 import Editar from "@/components/Editar.vue";
 import User from '../classes/user';
-import { mapMutations, mapGetters, mapState } from "vuex";
+import { mapMutations, mapGetters, mapState, mapActions } from "vuex";
 import Firebase from 'firebase'
 
 export default {
@@ -298,29 +298,33 @@ export default {
     });
   },
     methods: {
+      ...mapActions(['updateUser']),
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
       getReservations: async () => {
               let db = Firebase.firestore();
               let usersDB = await db.collection("usuarios").get();
-              let users =  usersDB.docs.map(userDB => User.mapUser(userDB))
+              let users =  usersDB.docs.map(userDB => User.mapUser(userDB.data()))
+              console.log("Usuarios cargados");
+              console.log(users)
               let reservations = users.flatMap(user => user.reservation ? user.reservation : []);
               return reservations;
-            },
+      },
       reserve(hour,day){
         try{
           let dateIndex = this.getIndexByDayId(day);
-          let reservation = new Reservation(hour,day,this.availablesDates[dateIndex],this.actualUser);
+          let reservation = new Reservation(hour,day,this.availablesDates[dateIndex],this.actualUser.name);
           this.addReservationToUser({reservation:reservation,dates:this.availablesDates});
-          this.loadReservas();
+          this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e => alert(e));
         }catch(e){
           alert(e);
         }
       },
+      
       cancel(hour,day){
         let dateIndex = this.getIndexByDayId(day);
         let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
         this.deleteUserReservation(reservation);
-        this.loadReservas();
+        this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e => alert(e));
       },
       getIndexByDayId(day){
         let dateIndex = 0;
@@ -333,20 +337,15 @@ export default {
           }
           return dateIndex;
       },
-       async loadReservas(){
+      loadReservas(){
               if(this.$refs.table){
-                console.log("Table Items at this moment");
-                console.log(this.tableItems);
-                for(let schedule of this.tableItems){
-                  await this.setupScheduleReservation(schedule);
-                }
-                this.$refs.table.refresh();
+                this.getReservations().then(reservations => {
+                  for(let schedule of this.tableItems){
+                    schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
+                  }
+                  this.$refs.table.refresh();
+                });
               }
-            },
-            async setupScheduleReservation(schedule){
-              let reservations = await this.getReservations();
-              schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
-
             },
       getAvailablesDates() {
         let fechas = [];
