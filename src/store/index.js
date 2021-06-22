@@ -206,14 +206,15 @@ export default new Vuex.Store({
       // const url =
       //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
-        const PlanesGet = [];
-        const fire = await db.collection("planes");
-        fire.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            PlanesGet.push(doc.data());
-          });
-          commit("cargarDatos", PlanesGet);
-        }).catch(e => alert(e));
+        let query = await db
+        .collection("planes")
+        .get();
+        console.log("Lenght de la query: ")
+        console.log(query.docs.length)
+        let PlanesGet =  query.docs.map(doc =>  doc.data());
+        console.log("Lenght dl arreglo mapeado")
+        console.log(PlanesGet)
+        commit("cargarDatos", PlanesGet);
         
       } catch (error) {
         console.log(error);

@@ -1,6 +1,7 @@
 <template>
 <div class="table-responsive">
   <b-table
+    ref = "tablePlanes"
     v-if="filas && encabezados"
     striped
     hover

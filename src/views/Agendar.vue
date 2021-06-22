@@ -259,6 +259,7 @@ export default {
     name: 'Agenda',
     data() {
       return {
+
         cantMaxReserv : 12,
         availablesDates: [],
         activaEditar: false,
