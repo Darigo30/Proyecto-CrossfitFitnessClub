@@ -1,11 +1,14 @@
+import Plan from './plan';
+import Reservation from './reservation';
+
 export default class User{
-    constructor(name,user,plan,reservation,password,role = 'user'){
+    constructor(id,name,user,plan,reservation,role = 'user'){
+        this.id = id;
         this.name = name;
         this.user = user;
         this.plan = plan;
         this.reservation = reservation == null ? [] : reservation;
         this.role = role
-        this.password = password;
     }
 
     addReservation(reservation){
@@ -36,7 +39,6 @@ export default class User{
             for(let i=0;i<this.reservation.length;i++){
                 let dateReservation = this.reservation[i].date;
                 let dateReservationFormat = this.dateFormat(dateReservation);
-                console.log("Comparando: " +  formatDate +":" + dateReservationFormat)
                 if(formatDate===dateReservationFormat)
                     counter++;
             }
@@ -50,6 +52,27 @@ export default class User{
         let mes = date.getMonth()+1;
         let anio = date.getFullYear();
         return `${dia}${mes}${anio}`;
+    }
+
+    static mapUser(extUser){
+        let userPlan = extUser.plan ? Plan.mapPlan(extUser.plan) : null;
+        let reservations = extUser.reservations ? extUser.reservations.map(reserv => Reservation.mapReservation(reserv)) : [];
+        return new User(extUser.id,extUser.nombre,extUser.email,userPlan,reservations,extUser.rol);
+    }
+
+    static reverseUser(user){
+        let plan = Plan.mapPlan(user.plan);
+        let reservations = user.reservation ? user.reservation.map(reserv => Reservation.mapReservation(reserv)) : [];
+        console.log("Cantidad de reservaciones mapeadas");
+        console.log(reservations)
+        return {
+            id : user.id,
+            nombre : user.name,
+            email : user.user,
+            plan : plan,
+            reservations : reservations,
+            rol : user.role
+         };
     }
 
     

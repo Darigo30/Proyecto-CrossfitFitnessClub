@@ -1,9 +1,9 @@
     export default class Reservation{
-    constructor(hour,day,date,user){
+    constructor(hour,day,date,username){
         this.hour = hour;
         this.day = day;
         this.date = date;
-        this.user = user;
+        this.username = username;
     }
 
     sameReservation(reservation){
@@ -24,6 +24,12 @@
         let mes = reservation.date.getMonth()+1;
         let anio =reservation.date.getFullYear();
         return `${dia}${mes}${anio}`;
+    }
+
+    static mapReservation(reservation){
+        if(!reservation)
+            throw 'Reservation to map can be null'
+        return new Reservation(reservation.hour,reservation.day,new Date(reservation.date),reservation.username);
     }
 
 

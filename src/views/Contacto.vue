@@ -20,40 +20,9 @@
             Si tienes consultas, dudas o sugerencias, <span>escríbenos!</span>
           </h2>
           <div>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label"
-                >Nombre y Apellido</label
-              >
-              <input type="text" class="form-control calc" id="" />
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input
-                type="email"
-                class="form-control calc"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-              />
-              <div id="emailHelp" class="form-text">
-                Nosotros no lo compartiremos con nadie
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label"
-                >Teléfono</label
-              >
-              <input type="text" class="form-control calc" id="" />
-              <div id="" class="form-text">
-                Nosotros no lo compartiremos con nadie
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label"
-                >Comentarios</label
-              >
-              <textarea class="form-control calc" id="" rows="3"></textarea>
-            </div>
-            <button class="btn btn-primary btn-calc">Enviar</button>
+           <iframe src="https://form.typeform.com/to/XmuXpeDM?typeform-medium=embed-sdk&amp;typeform-embed=embed-widget&amp;typeform-source=localhost&amp;embed-opacity=0&amp;typeform-embed-id=mp1xi" 
+           allow="camera; microphone; autoplay; encrypted-media; fullscreen;" data-qa="iframe" style="border: 0px none; transform: rotateZ(0deg); height: 400px;" title="typeform-embed" width="100%" height="100%" frameborder="0">
+           </iframe>
           </div>
         </b-col>
         <b-col cols="4 my-5" sm>
@@ -82,6 +51,8 @@
     </b-container>
   </div>
 </template>
+
+
 <style scoped>
 .about-bg {
   padding: 170px 0 170px;

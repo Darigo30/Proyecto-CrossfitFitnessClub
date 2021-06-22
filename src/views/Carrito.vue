@@ -55,7 +55,9 @@
                 <i class="fas fa-check-circle"></i> Clases por semana:
                 {{ comprar.clasessemanales }}
               </p>
-              <button class="btn btn-danger" @click="eliminarCarrito">Eliminar plan</button>
+              <button class="btn btn-danger" @click="eliminarCarrito">
+                Eliminar plan
+              </button>
             </div>
           </div>
         </b-col>
@@ -76,7 +78,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations,mapActions } from "vuex";
 export default {
   name: "Carrito",
   data() {
@@ -87,11 +89,14 @@ export default {
   computed: {
     ...mapState(["carrito"]),
     ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
+    ...mapState(['actualUser'])
   },
   methods: {
     ...mapMutations(["btnComprar", "eliminarCarrito"]),
+    ...mapActions(['updateUser']),
     comprarEx() {
       this.btnComprar();
+      this.updateUser(this.actualUser);
       console.log(this.isLogeado);
       this.login = this.isLogeado;
     },
