@@ -1,0 +1,11 @@
+.idea
+node_modules
+dist
+.firebase
+functions
+public
+proyecto-db.json
+firebase.js
+firebase-debug.log
+splice.js
+package-lock.json
