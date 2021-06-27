@@ -484,5 +484,8 @@ h4 {
 .py-ag {
   padding: 200px;
 }
-
+@media (max-width: 767px) {
+   .about-bg{padding: 0 0 20px;}
+   .py-ag{padding: 35px;}
+}
 </style>

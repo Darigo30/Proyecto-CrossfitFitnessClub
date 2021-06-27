@@ -158,4 +158,9 @@ span {
     font-size: 11px;
   }
 }
+@media (max-width: 767px) {
+    .about-bg{
+    padding: 0 0 20px;
+}
+  }
 </style>

@@ -175,5 +175,8 @@ label {
   .formlog {
     padding: 20px;
   }
+    .about-bg{
+    padding: 0 0 20px;
+}
 }
 </style>
