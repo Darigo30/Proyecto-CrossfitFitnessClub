@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 //import axios from "axios";
 import router from "@/router";
-import agenda from './modules/agenda'
 import { db } from "../../firebase";
 
 Vue.use(Vuex);
@@ -127,10 +126,6 @@ export default new Vuex.Store({
     eliminarCarrito(state) {
       state.carrito = [];
     },
-    //guardar planes en BD Firebase desde API inicial
-    guardarPlanesDB(state) {
-      console.log(state);
-    },
     booleanEditar(state) {
       state.editar = true;
     },
@@ -192,32 +187,20 @@ export default new Vuex.Store({
   },
   actions: {
     async updateUser({ commit },user){
-      try{
-        console.log(commit)
+      console.log(commit)
       let userDB = User.reverseUser(user);
       await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
-      }catch(e){
-        console.error(e);
-        alert("Ocurrió un error mientras se actualizaba el usuario")
-      }
   },
     async getDataApi({ commit }) {
       //se saca llamada de api con axios para ocupar el get de firebase
       // const url =
       //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
-        let query = await db
-        .collection("planes")
-        .get();
-        console.log("Lenght de la query: ")
-        console.log(query.docs.length)
-        let PlanesGet =  query.docs.map(doc =>  doc.data());
-        console.log("Lenght dl arreglo mapeado")
-        console.log(PlanesGet)
+        let query = await db.collection("planes").get();
+        let PlanesGet =  query.docs.map(doc =>  {let planSocio = doc.data();planSocio.id = doc.id; return planSocio})
         commit("cargarDatos", PlanesGet);
-        
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     async setDataPlanes({ commit }) {
@@ -226,72 +209,26 @@ export default new Vuex.Store({
     async deleteProducto({ commit }, payload) {
       const borrarPlan = payload;
       if (!borrarPlan) return;
-
-      // Eliminar desde Firebase
       try {
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .delete()
-                .then(() => {
-                  console.log("el doc fue borrado");
-                })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al borrar: ", error);
-                });
-            });
-          })
-          .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
-          });
+        await db.collection('planes').doc(borrarPlan.id).delete();
+        commit("borrarProducto", borrarPlan);
       } catch (error) {
         console.log(error);
       }
-      // Eliminar desde Vuex
-      commit("borrarProducto", borrarPlan);
     },
      //actualizar
      async updateProducto({ commit }, payload) {
       const planEditarF = payload;
+      let updated = true;
       if (!planEditarF) return;
-      // Firebase
       try {
-
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .update({
-                  nombrePlan: planEditarF.nombrePlan,
-                  valorMensual: planEditarF.valorMensual,
-                  ClasesSemanales: planEditarF.ClasesSemanales,
-                  imagen: planEditarF.imagen,
-                  id: planEditarF.id,
-                })
-                .then(() => {
-                  console.log("el doc fue actualizado");
-                  commit("actualizarPlanes", payload);
-                  return true;
-                })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al actualizar: ", error);
-                  return false;
-                });
-            });
-          })
-          .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
-          });
-      } catch (error) {
-        console.log(error);
+        await db.collection("planes").doc(planEditarF.id).set(JSON.parse( JSON.stringify(planEditarF)));
+        commit("actualizarPlanes", payload);
+      }catch(e){
+        console.error(e);
+        updated = !updated;
       }
+      return updated;
     },
     //Agrego nuevo producto
     async crearNuevoPlan({ commit }, payload) {
@@ -301,8 +238,5 @@ export default new Vuex.Store({
       commit("agregarPlanalState", nuevo);
       await db.collection("planes").add(nuevo);
     },
-  },
-  modules : {
-    agenda
   }
 });

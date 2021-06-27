@@ -135,7 +135,7 @@ export default {
   },
   computed: {
     ...mapState(["userRole"]),
-  },
+  }
 };
 </script>
 <style scoped>

@@ -19,7 +19,7 @@ export default class User{
         if(this.plan){
             let cantPlan = this.plan.cant;
             let cantMakedReserv = this.cantReservationByRangeDate(dates);
-            if(cantMakedReserv == cantPlan)
+            if(cantMakedReserv >= cantPlan)
                 throw 'Cantidad de días disponibles para reservar agotados'
         }else throw 'Usuario sin plan'
     }
@@ -63,8 +63,6 @@ export default class User{
     static reverseUser(user){
         let plan = Plan.mapPlan(user.plan);
         let reservations = user.reservation ? user.reservation.map(reserv => Reservation.mapReservation(reserv)) : [];
-        console.log("Cantidad de reservaciones mapeadas");
-        console.log(reservations)
         return {
             id : user.id,
             nombre : user.name,
