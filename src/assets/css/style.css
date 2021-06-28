@@ -114,20 +114,22 @@ p{
     text-decoration: none;
     color: #fff;
   }
-
+  .carousel-control-prev, .carousel-control-next{
+    display: none;
+}
   /*MEDIAS QUERYS*/
 @media (max-width: 1300px) {
   .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 10px 15px;}
 }
 @media (max-width: 1200px) {
   .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 10px;font-size: 11px;}
-  h3.txt-slider[data-v-fae5bece] {top: -210px;}
 }
 @media (max-width: 991px) {
   .top-address[data-v-65af85a3] {display: none;}
   .navbar-expand-lg .navbar-nav .nav-link[data-v-65af85a3] {padding: 6px;font-size: 15px;}
   .navbar-nav{flex-direction: row;}
   .carousel-control-prev, .carousel-control-next{top: 0;}
+ 
 }
 
 

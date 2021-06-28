@@ -111,5 +111,6 @@ span {
   .about-right-text {
     padding: 30px 0 0;
   }
+   .about-bg{padding: 0 0 20px;}
 }
 </style>
