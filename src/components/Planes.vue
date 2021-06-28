@@ -137,8 +137,11 @@ export default {
 }
 .image img {
   position: relative;
-  max-width: 270px;
-  height: 200px;
+  max-width: 340px;
+  height: auto;
+}
+.card-int-price {
+    margin-bottom: 20px;
 }
 .btn-agregar {
   background: #001e3c;

@@ -13,7 +13,15 @@
         </b-row>
       </b-container>
     </header>
-    <b-container class="py-5">
+    
+    <b-container v-if="actualUser && actualUser.role === 'admin'" class="py-5 adminse">
+      <b-row>
+        <b-col>
+          <h2 class="text-center text-uppercase fst-italic"><span>Hola admin, recuerda que tu no compras planes</span></h2>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container v-else class="py-5">
       <b-row>
         <b-col cols="12" v-if="!login">
           <div class="alert alert-danger" role="alert">
@@ -87,7 +95,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["carrito"]),
+    ...mapState(["carrito", "actualUser"]),
     ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
     ...mapState(['actualUser'])
   },
@@ -143,9 +151,16 @@ span {
   background: #ccc;
   color: beige;
 }
+.adminse{
+  height: 30vh;
+}
+
 @media (max-width: 767px) {
   .col-6 {
     width: 100%;
   }
+  .about-bg{
+    padding: 0 0 20px;
+}
 }
 </style>
