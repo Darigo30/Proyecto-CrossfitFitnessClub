@@ -102,11 +102,14 @@ export default {
   methods: {
     ...mapMutations(["btnComprar", "eliminarCarrito"]),
     ...mapActions(['updateUser']),
-    comprarEx() {
-      this.btnComprar();
-      this.updateUser(this.actualUser);
-      console.log(this.isLogeado);
-      this.login = this.isLogeado;
+    async comprarEx() {
+      try{
+        this.btnComprar();
+        await this.updateUser(this.actualUser)
+        this.login = this.isLogeado;
+      }catch(ex){
+        console.error(ex)
+      }
     },
   },
 };

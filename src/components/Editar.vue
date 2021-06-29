@@ -47,10 +47,14 @@ export default {
   },
   methods: {
     ...mapActions(["updateProducto"]),
-    actualizar(plan) {
+    async actualizar(plan) {
+      try{
         console.log(plan)
-      const result = this.updateProducto(plan);
-      this.resultado(result);
+        const result = await this.updateProducto(plan);
+        this.resultado(result);
+      }catch(e){
+        this.resultado(false);
+      }
     },
   },
 };

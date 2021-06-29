@@ -192,9 +192,6 @@ export default new Vuex.Store({
       await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
   },
     async getDataApi({ commit }) {
-      //se saca llamada de api con axios para ocupar el get de firebase
-      // const url =
-      //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
         let query = await db.collection("planes").get();
         let PlanesGet =  query.docs.map(doc =>  {let planSocio = doc.data();planSocio.id = doc.id; return planSocio})
@@ -209,14 +206,9 @@ export default new Vuex.Store({
     async deleteProducto({ commit }, payload) {
       const borrarPlan = payload;
       if (!borrarPlan) return;
-      try {
-        await db.collection('planes').doc(borrarPlan.id).delete();
-        commit("borrarProducto", borrarPlan);
-      } catch (error) {
-        console.log(error);
-      }
+      await db.collection('planes').doc(borrarPlan.id).delete();
+      commit("borrarProducto", borrarPlan);
     },
-     //actualizar
      async updateProducto({ commit }, payload) {
       const planEditarF = payload;
       let updated = true;
@@ -233,10 +225,10 @@ export default new Vuex.Store({
     //Agrego nuevo producto
     async crearNuevoPlan({ commit }, payload) {
       const nuevo = payload;
-      if (!nuevo) return;
-     // Actualizar el state
-      commit("agregarPlanalState", nuevo);
-      await db.collection("planes").add(nuevo);
+      if (!nuevo){
+        commit("agregarPlanalState", nuevo);
+        await db.collection("planes").add(nuevo);
+      }
     },
   }
 });
