@@ -28,7 +28,7 @@ export default class Schedule {
 
   getUsersReservByDay(day) {
     let reservations = this.getReservasByDay(day);
-    return reservations.map((reservation) => reservation.user);
+    return reservations.map((reservation) => reservation.username);
   }
 
   getReservasByDay(day) {

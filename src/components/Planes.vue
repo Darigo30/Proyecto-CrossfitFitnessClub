@@ -32,11 +32,11 @@
   </b-row>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapMutations ,mapState} from "vuex";
 export default {
   name: "Planes",
   computed: {
-    ...mapGetters(["cardsPlanes"]),
+    ...mapState(['planes']),
     llamadocard() {
       return this.cantidadCards();
     },
@@ -44,9 +44,9 @@ export default {
   methods: {
     cantidadCards() {
       if (this.$props.CantidadMostar == "all") {
-        return this.cardsPlanes;
+        return this.planes;
       } else {
-        return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar)); //recordar que es slice
+        return this.planes.slice(0, parseInt(this.$props.CantidadMostar));
       }
     },
     ...mapMutations(["agregarPlan"]),

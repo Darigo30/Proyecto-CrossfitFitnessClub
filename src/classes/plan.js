@@ -6,7 +6,9 @@ export default class Plan {
 
   static mapPlan(extPlan){
       if(!extPlan)
-        throw 'Plan to map can be null'
-    return new Plan(extPlan.name,extPlan.cantidad);
+        throw 'Plan to map can not be null'
+    return new Plan(extPlan.name,extPlan.cant);
   }
+
+
 }

@@ -86,7 +86,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations,mapActions } from "vuex";
 export default {
   name: "Carrito",
   data() {
@@ -97,11 +97,15 @@ export default {
   computed: {
     ...mapState(["carrito", "actualUser"]),
     ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
+    ...mapState(['actualUser'])
   },
   methods: {
     ...mapMutations(["btnComprar", "eliminarCarrito"]),
+    ...mapActions(['updateUser']),
     comprarEx() {
       this.btnComprar();
+      this.updateUser(this.actualUser);
+      console.log(this.isLogeado);
       this.login = this.isLogeado;
     },
   },

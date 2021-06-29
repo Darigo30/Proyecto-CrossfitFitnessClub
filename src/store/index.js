@@ -2,12 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 //import axios from "axios";
 import router from "@/router";
-import agenda from './modules/agenda'
 import { db } from "../../firebase";
 
 Vue.use(Vuex);
 
 import Plan from '../classes/plan'
+import User from '../classes/user'
 
 export default new Vuex.Store({
   state: {
@@ -188,15 +188,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async updateUser({ commit },user){
+      console.log(commit)
+      let userDB = User.reverseUser(user);
+      await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
+  },
     async getDataApi({ commit }) {
       try {
-        const PlanesGet = [];
-        const fire = await db.collection("planes");
-        fire.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            PlanesGet.push(doc.data());
-          });
-        });
+        let query = await db.collection("planes").get();
+        let PlanesGet =  query.docs.map(doc =>  {let planSocio = doc.data();planSocio.id = doc.id; return planSocio})
         commit("cargarDatos", PlanesGet);
       } catch (error) {
         return error;
@@ -205,73 +205,27 @@ export default new Vuex.Store({
     async deleteProducto({ commit }, payload) {
       const borrarPlan = payload;
       if (!borrarPlan) return;
-
-      // Eliminar desde Firebase
       try {
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .delete()
-                .then(() => {
-                  commit("setMsjErrorTabla", "el doc fue borrado");
-                })
-                .catch(function () {
-                  commit("setMsjErrorTabla", "ha ocurrido un error al borrar: ");
-                  return;
-                });
-            });
-          })
-          .catch(function () {
-            commit("setMsjErrorTabla", "Error al obtener el documento: ");
-            return;
-          });
+        await db.collection('planes').doc(borrarPlan.id).delete();
+        commit("borrarProducto", borrarPlan);
       } catch (error) {
        commit("setMsjErrorTabla", "Error al obtener el documento");
        return;
       }
-      // Eliminar desde Vuex
-      commit("borrarProducto", borrarPlan);
     },
      //actualizar
      async updateProducto({ commit }, payload) {
       const planEditarF = payload;
+      let updated = true;
       if (!planEditarF) return;
-      // Firebase
       try {
-
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .update({
-                  nombrePlan: planEditarF.nombrePlan,
-                  valorMensual: planEditarF.valorMensual,
-                  ClasesSemanales: planEditarF.ClasesSemanales,
-                  imagen: planEditarF.imagen,
-                  id: planEditarF.id,
-                })
-                .then(() => {
-                  commit("actualizarPlanes", payload);
-                  return true;
-                })
-                .catch(function () {
-                  return false;
-                });
-            });
-          })
-          .catch(function (error) {
-            return error;
-          });
-      } catch (error) {
-        return error;
+        await db.collection("planes").doc(planEditarF.id).set(JSON.parse( JSON.stringify(planEditarF)));
+        commit("actualizarPlanes", payload);
+      }catch(e){
+        console.error(e);
+        updated = !updated;
       }
+      return updated;
     },
     //Agrego nuevo producto
     async crearNuevoPlan({ commit }, payload) {
@@ -281,8 +235,5 @@ export default new Vuex.Store({
       commit("agregarPlanalState", nuevo);
       await db.collection("planes").add(nuevo);
     },
-  },
-  modules : {
-    agenda
   }
 });

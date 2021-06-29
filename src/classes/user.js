@@ -2,7 +2,8 @@ import Plan from './plan';
 import Reservation from './reservation';
 
 export default class User{
-    constructor(name,user,plan,reservation,role = 'user'){
+    constructor(id,name,user,plan,reservation,role = 'user'){
+        this.id = id;
         this.name = name;
         this.user = user;
         this.plan = plan;
@@ -18,7 +19,7 @@ export default class User{
         if(this.plan){
             let cantPlan = this.plan.cant;
             let cantMakedReserv = this.cantReservationByRangeDate(dates);
-            if(cantMakedReserv == cantPlan)
+            if(cantMakedReserv >= cantPlan)
                 throw 'Cantidad de días disponibles para reservar agotados'
         }else throw 'Usuario sin plan'
     }
@@ -53,8 +54,21 @@ export default class User{
 
     static mapUser(extUser){
         let userPlan = extUser.plan ? Plan.mapPlan(extUser.plan) : null;
-        let reservations = extUser.reservations ? extUser.reservations.map(reserv => Reservation.mapReservation(reserv)) : []
-        return new User(extUser.nombre,extUser.email,userPlan,reservations,extUser.rol);
+        let reservations = extUser.reservations ? extUser.reservations.map(reserv => Reservation.mapReservation(reserv)) : [];
+        return new User(extUser.id,extUser.nombre,extUser.email,userPlan,reservations,extUser.rol);
+    }
+
+    static reverseUser(user){
+        let plan = Plan.mapPlan(user.plan);
+        let reservations = user.reservation ? user.reservation.map(reserv => Reservation.mapReservation(reserv)) : [];
+        return {
+            id : user.id,
+            nombre : user.name,
+            email : user.user,
+            plan : plan,
+            reservations : reservations,
+            rol : user.role
+         };
     }
 
     
