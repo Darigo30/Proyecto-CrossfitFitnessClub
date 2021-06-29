@@ -335,8 +335,6 @@ export default {
       },
        async loadReservas(){
               if(this.$refs.table){
-                console.log("Table Items at this moment");
-                console.log(this.tableItems);
                 for(let schedule of this.tableItems){
                   await this.setupScheduleReservation(schedule);
                 }

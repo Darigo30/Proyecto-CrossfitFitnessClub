@@ -29,16 +29,13 @@ export default class User{
     }
 
     cantReservationByRangeDate(dates){
-        console.log(dates)
         let counter = 0;
         for(let j = 0;j<dates.length;j++){
             let date = dates[j];
             let formatDate = this.dateFormat(date);
-            console.log(formatDate)
             for(let i=0;i<this.reservation.length;i++){
                 let dateReservation = this.reservation[i].date;
                 let dateReservationFormat = this.dateFormat(dateReservation);
-                console.log("Comparando: " +  formatDate +":" + dateReservationFormat)
                 if(formatDate===dateReservationFormat)
                     counter++;
             }

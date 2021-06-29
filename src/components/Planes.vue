@@ -1,5 +1,8 @@
 <template>
-  <b-row>
+<div v-if="cardsPlanes.length === 0">
+  <div class="alert alert-danger" role="alert">¡Ha ocurrido un error en la consulta!</div>
+</div>
+  <b-row v-else>
     <b-col sm="4" md="4" lg="4" v-for="(objeto, i) in llamadocard" :key="i">
       <div class="card-int-price">
         <div class="inner-box">
@@ -43,7 +46,7 @@ export default {
       if (this.$props.CantidadMostar == "all") {
         return this.cardsPlanes;
       } else {
-        return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
+        return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar)); //recordar que es slice
       }
     },
     ...mapMutations(["agregarPlan"]),

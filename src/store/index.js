@@ -49,6 +49,7 @@ export default new Vuex.Store({
       ClasesSemanales: "",
       imagen: "",
     },
+    mensajeAlerta: "",
   },
   mutations: {
     setupUser(state,user){
@@ -89,7 +90,6 @@ export default new Vuex.Store({
           total,
           clasessemanales,
         };
-        console.log(AddPlan, payload);
         state.carrito.push(AddPlan);
       }else{
         alert("Ya tienes un plan en el carrito")
@@ -100,7 +100,6 @@ export default new Vuex.Store({
         const compraFinal = confirm("¿Quieres comprar ahora?");
         if (compraFinal) {
           const ventaPlan = state.carrito.map((obj) => {
-            console.log(obj);
             const objvendido = {
               id: obj.id,
               nombre: obj.nombre,
@@ -108,7 +107,6 @@ export default new Vuex.Store({
               cantidadVendida: obj.cantidad,
               clasessemanales : obj.clasessemanales
             };
-            console.log(objvendido, "la venta");
             return objvendido;
           });
           state.actualUser.plan = new Plan(ventaPlan[0].nombre,ventaPlan[0].clasessemanales);
@@ -125,10 +123,6 @@ export default new Vuex.Store({
     },
     eliminarCarrito(state) {
       state.carrito = [];
-    },
-    //guardar planes en BD Firebase desde API inicial
-    guardarPlanesDB(state) {
-      console.log(state);
     },
     booleanEditar(state) {
       state.editar = true;
@@ -149,12 +143,15 @@ export default new Vuex.Store({
         (plagin) => plagin.id != payload.id
       );
       state.planes = borradoFila;
-      console.log(borradoFila);
     },
     agregarPlanalState(state, payload) {
       const existePlan = state.planes.find((planadd) => planadd.id === payload.id);
        // Si no existe ingresar a la base de datos.
        if (!existePlan) state.planes.push(payload);
+    },
+    setMsjErrorTabla(state, payload) {
+      state.mensajeAlerta = payload;
+      setTimeout(() => { state.mensajeAlerta = "" } , 5000);
     }
   },
   getters: {
@@ -163,8 +160,6 @@ export default new Vuex.Store({
     },
     getUserById: (state) => (id) => {
       let user = state.users.find(u => u.user === id);
-      console.log("Usuario encontrado")
-      console.log(state.users[0].name);
       return user;
     },
     infoUsers(state){
@@ -187,13 +182,13 @@ export default new Vuex.Store({
     },
     isLogeado(state) {
       return state.actualUser !== null ? true : false;
+    },
+    getmsjTabla(state) {
+      return state.mensajeAlerta;
     }
   },
   actions: {
     async getDataApi({ commit }) {
-      //se saca llamada de api con axios para ocupar el get de firebase
-      // const url =
-      //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
         const PlanesGet = [];
         const fire = await db.collection("planes");
@@ -204,11 +199,8 @@ export default new Vuex.Store({
         });
         commit("cargarDatos", PlanesGet);
       } catch (error) {
-        console.log(error);
+        return error;
       }
-    },
-    async setDataPlanes({ commit }) {
-      commit("guardarPlanesDB");
     },
     async deleteProducto({ commit }, payload) {
       const borrarPlan = payload;
@@ -225,18 +217,21 @@ export default new Vuex.Store({
               doc.ref
                 .delete()
                 .then(() => {
-                  console.log("el doc fue borrado");
+                  commit("setMsjErrorTabla", "el doc fue borrado");
                 })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al borrar: ", error);
+                .catch(function () {
+                  commit("setMsjErrorTabla", "ha ocurrido un error al borrar: ");
+                  return;
                 });
             });
           })
-          .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
+          .catch(function () {
+            commit("setMsjErrorTabla", "Error al obtener el documento: ");
+            return;
           });
       } catch (error) {
-        console.log(error);
+       commit("setMsjErrorTabla", "Error al obtener el documento");
+       return;
       }
       // Eliminar desde Vuex
       commit("borrarProducto", borrarPlan);
@@ -263,21 +258,19 @@ export default new Vuex.Store({
                   id: planEditarF.id,
                 })
                 .then(() => {
-                  console.log("el doc fue actualizado");
                   commit("actualizarPlanes", payload);
                   return true;
                 })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al actualizar: ", error);
+                .catch(function () {
                   return false;
                 });
             });
           })
           .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
+            return error;
           });
       } catch (error) {
-        console.log(error);
+        return error;
       }
     },
     //Agrego nuevo producto

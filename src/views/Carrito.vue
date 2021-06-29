@@ -102,7 +102,6 @@ export default {
     ...mapMutations(["btnComprar", "eliminarCarrito"]),
     comprarEx() {
       this.btnComprar();
-      console.log(this.isLogeado);
       this.login = this.isLogeado;
     },
   },
