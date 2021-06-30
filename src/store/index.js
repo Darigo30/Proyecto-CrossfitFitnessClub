@@ -63,12 +63,12 @@ export default new Vuex.Store({
       if(state.actualUser != null){
         state.actualUser.validateAvailableReserveIntoWeekByHiredPlan(payload.dates)
         state.actualUser.addReservation(payload.reservation);
-      }else console.log("No hay usuario logueado");
+      }else throw "No hay usuario logueado";
     },
     deleteUserReservation(state,reservation){
       if(state.actualUser != null){
         state.actualUser.deleteReservation(reservation);
-      }else console.log("No hay usuario logueado");
+      }else throw "No hay usuario logueado";
     },
     cargarDatos(state, payload) {
       state.planes = payload;
@@ -96,9 +96,8 @@ export default new Vuex.Store({
       }
     },
     btnComprar(state) {
-      if (state.actualUser) {
-        const compraFinal = confirm("¿Quieres comprar ahora?");
-        if (compraFinal) {
+      try{
+        if (state.actualUser) {
           const ventaPlan = state.carrito.map((obj) => {
             const objvendido = {
               id: obj.id,
@@ -113,10 +112,12 @@ export default new Vuex.Store({
           state.ventas = ventaPlan;
           state.carrito = [];
           state.pagado = true;
+        } else {
+          state.pagado = false;
         }
-      } else {
-        state.pagado = false;
-      }
+    }catch(e){
+      throw "Error al comprar el plan";
+    }
     },
     setLastVisitedPage(state, namePage) {
       state.lastVisitedPage = namePage;
@@ -189,9 +190,13 @@ export default new Vuex.Store({
   },
   actions: {
     async updateUser({ commit },user){
+      try{
       console.log(commit)
       let userDB = User.reverseUser(user);
       await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
+      }catch(e){
+        throw "Error actualizando el usuario";
+      }
   },
     async getDataApi({ commit }) {
       try {
@@ -199,7 +204,7 @@ export default new Vuex.Store({
         let PlanesGet =  query.docs.map(doc =>  {let planSocio = doc.data();planSocio.id = doc.id; return planSocio})
         commit("cargarDatos", PlanesGet);
       } catch (error) {
-        return error;
+        throw "Error cargando los planes desde la API"
       }
     },
     async deleteProducto({ commit }, payload) {
@@ -222,7 +227,6 @@ export default new Vuex.Store({
         await db.collection("planes").doc(planEditarF.id).set(JSON.parse( JSON.stringify(planEditarF)));
         commit("actualizarPlanes", payload);
       }catch(e){
-        console.error(e);
         updated = !updated;
       }
       return updated;
