@@ -1,5 +1,5 @@
 <template>
-<div v-if="cardsPlanes.length === 0">
+<div v-if="planes.length === 0">
   <div class="alert alert-danger" role="alert">¡Ha ocurrido un error en la consulta!</div>
 </div>
   <b-row v-else>
