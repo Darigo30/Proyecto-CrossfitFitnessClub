@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="mostrarMensaje">
-      <div class="alert alert-danger" role="alert">¡Ha ocurrido un error en la consulta de los planes!</div>
-    </div>
     <Nav />
-    
     <router-view />
     <Footer />
   </div>
@@ -29,7 +25,7 @@ export default {
     ...mapActions(["getDataApi"]),
   },
   created() {
-    this.getDataApi().catch(() => {this.mostrarMensaje = true; setTimeout(()=> this.mostrarMensaje = false,3000)});
+    this.getDataApi();
   },
 };
 </script>
