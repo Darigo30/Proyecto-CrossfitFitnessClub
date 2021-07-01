@@ -191,9 +191,9 @@ export default new Vuex.Store({
   actions: {
     async updateUser({ commit },user){
       try{
-      console.log(commit)
       let userDB = User.reverseUser(user);
       await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
+      commit('setupUser',user);
       }catch(e){
         throw "Error actualizando el usuario";
       }
