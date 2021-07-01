@@ -131,6 +131,7 @@ export default {
     ...mapActions(['updateUser']),
     async comprarEx() {
       try{
+        if(!this.actualUser) throw "Debe estar logueado para realizar una compra"
         this.btnComprar();
         await this.updateUser(this.actualUser);
         this.modalShow = false;
