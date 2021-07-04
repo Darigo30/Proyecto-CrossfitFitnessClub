@@ -49,11 +49,12 @@
       </b-modal>
     </template>
   </b-table>
+  <div v-if="getmsjTabla" class="alert alert-warning" role="alert">{{ getmsjTabla }}</div>
 </div>
 </template>
 
 <script>
-import { mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   name: "Tabla",
   data() {
@@ -73,6 +74,9 @@ export default {
     editarData: {
       type: Function,
     },
+  },
+  computed: {
+    ...mapGetters(["getmsjTabla"]),
   },
   methods: {
     ...mapActions(["deleteProducto"]),

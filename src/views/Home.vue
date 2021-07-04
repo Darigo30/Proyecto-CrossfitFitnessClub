@@ -135,7 +135,7 @@ export default {
   },
   computed: {
     ...mapState(["userRole"]),
-  },
+  }
 };
 </script>
 <style scoped>
@@ -151,16 +151,18 @@ export default {
 h3.txt-slider {
   position: absolute;
   left: 0;
-  top: -300px;
+  top: -220px;
   font-size: 60px;
   text-align: left;
   text-transform: uppercase;
   font-style: italic;
+  width: 60%;
 }
 .titulos-salud {
   color: #001e3c;
   font-style: italic;
 }
+
 .titulos {
   color: #f30b47;
 }
@@ -183,4 +185,18 @@ span {
 .btn-vert:hover{
   color: #fff;
 }
+.carousel-item{
+  height: 500px;
+}
+@media (max-width: 991px) {
+  .carousel-item {
+    height: auto;
+  }
+  h3.txt-slider{
+    top: -60px;
+    width: 100%;
+    font-size: 20px;
+  }
+}
+
 </style>

@@ -1,5 +1,24 @@
 <template>
   <div class="carrito">
+    <template>
+    <b-modal v-model="modalShow" hide-footer title="¡Advertencia!">
+        <div class="d-block text-center">
+          <h4>¿Quieres comprar ahora?</h4>
+        </div>
+        <div class="d-flex justify-content-between">
+          <b-button
+            class="mt-3"
+            variant="outline-danger"
+            block
+            @click="modalShow = false"
+            >Cancelar</b-button
+          >
+          <b-button class="mt-3" variant="outline-success" block @click="comprarEx"
+            >Aceptar</b-button
+          >
+        </div>
+    </b-modal>
+    </template>
     <header class="about-bg">
       <b-container>
         <b-row>
@@ -13,7 +32,15 @@
         </b-row>
       </b-container>
     </header>
-    <b-container class="py-5">
+    
+    <b-container v-if="actualUser && actualUser.role === 'admin'" class="py-5 adminse">
+      <b-row>
+        <b-col>
+          <h2 class="text-center text-uppercase fst-italic"><span>Hola admin, recuerda que tu no compras planes</span></h2>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container v-else class="py-5">
       <b-row>
         <b-col cols="12" v-if="!login">
           <div class="alert alert-danger" role="alert">
@@ -31,7 +58,11 @@
             ¡Felicidades, su compra ha sido exitosa!
           </div>
         </b-col>
+        <b-col cols="12" v-if="mostrarMensajeErrorCompra">
+          <div class="alert alert-danger" role="alert">¡ {{messageComprar}} !</div>
+        </b-col>
       </b-row>
+
       <b-row class="py-5">
         <b-col class="py-5" cols="6">
           <h2 class="text-uppercase fst-italic">
@@ -66,12 +97,7 @@
             Total: ${{ totalCarrito }}
           </h4>
           <img class="py-4" src="../assets/paypall.jpg" />
-          <b-button
-            class="btn-pagar"
-            :class="{ disabled: carrito.length < 1 }"
-            @click="comprarEx"
-            >Pagar</b-button
-          >
+          <b-button class="btn-pagar" :class="{ disabled: carrito.length != 1 }" @click="modalShow = true">Pagar</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -83,23 +109,39 @@ export default {
   name: "Carrito",
   data() {
     return {
+      mostrarMensajeErrorCompra : false,
+      messageComprar : "Error al comprar",
       login: true,
+      modalShow : false,
+      messageBuyPlan : ""
     };
   },
   computed: {
-    ...mapState(["carrito"]),
+    ...mapState(["carrito", "actualUser"]),
     ...mapGetters(["totalCarrito", "isLogeado", "valorLogeadoPagado"]),
     ...mapState(['actualUser'])
   },
   methods: {
+    handleErrorComprar(error){
+      this.messageComprar = error;
+        this.mostrarMensajeErrorCompra = true;
+        setTimeout(() => this.mostrarMensajeErrorCompra = false,3000);
+    },
     ...mapMutations(["btnComprar", "eliminarCarrito"]),
     ...mapActions(['updateUser']),
-    comprarEx() {
-      this.btnComprar();
-      this.updateUser(this.actualUser);
-      console.log(this.isLogeado);
-      this.login = this.isLogeado;
+    async comprarEx() {
+      try{
+        if(!this.actualUser) throw "Debe estar logueado para realizar una compra"
+        this.btnComprar();
+        await this.updateUser(this.actualUser);
+        this.modalShow = false;
+        this.login = this.isLogeado
+      }catch(e){
+        this.modalShow = false;
+        this.handleErrorComprar(e);
+      }
     },
+
   },
 };
 </script>
@@ -143,9 +185,16 @@ span {
   background: #ccc;
   color: beige;
 }
+.adminse{
+  height: 30vh;
+}
+
 @media (max-width: 767px) {
   .col-6 {
     width: 100%;
   }
+  .about-bg{
+    padding: 0 0 20px;
+}
 }
 </style>

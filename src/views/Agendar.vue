@@ -1,5 +1,6 @@
 <template>
   <div class="agendar">
+    
     <header class="about-bg">
       <b-container>
         <b-row>
@@ -88,6 +89,13 @@
           <div class="alert alert-success" role="alert">
             ¡Listo, plan agregado, revisa tus planes en la tabla!
           </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+        <div v-if="mostrarMensaje">
+          <div class="alert alert-danger" role="alert">{{message}}</div>
+        </div>
         </b-col>
       </b-row>
       <b-row>
@@ -259,7 +267,8 @@ export default {
     name: 'Agenda',
     data() {
       return {
-
+        mostrarMensaje : false,
+        message : "",
         cantMaxReserv : 12,
         availablesDates: [],
         activaEditar: false,
@@ -299,14 +308,17 @@ export default {
     });
   },
     methods: {
+      handleErrorMessage(message){
+        this.message = message;
+        this.mostrarMensaje = true;
+        setTimeout(() => this.mostrarMensaje = false,3000);
+      },
       ...mapActions(['updateUser']),
       ...mapMutations(['addReservationToUser','deleteUserReservation']),
       getReservations: async () => {
               let db = Firebase.firestore();
               let usersDB = await db.collection("usuarios").get();
               let users =  usersDB.docs.map(userDB => User.mapUser(userDB.data()))
-              console.log("Usuarios cargados");
-              console.log(users)
               let reservations = users.flatMap(user => user.reservation ? user.reservation : []);
               return reservations;
       },
@@ -315,17 +327,16 @@ export default {
           let dateIndex = this.getIndexByDayId(day);
           let reservation = new Reservation(hour,day,this.availablesDates[dateIndex],this.actualUser.name);
           this.addReservationToUser({reservation:reservation,dates:this.availablesDates});
-          this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e => alert(e));
+          this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e => this.handleErrorMessage(e));
         }catch(e){
-          alert(e);
+          this.handleErrorMessage(e);
         }
       },
-      
       cancel(hour,day){
         let dateIndex = this.getIndexByDayId(day);
         let reservation = new Reservation(hour,day,this.availablesDates[dateIndex]);
         this.deleteUserReservation(reservation);
-        this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e => alert(e));
+        this.updateUser(this.actualUser).then(() => {this.loadReservas();}).catch(e =>this.handleErrorMessage(e));
       },
       getIndexByDayId(day){
         let dateIndex = 0;
@@ -345,7 +356,7 @@ export default {
                     schedule.reservations = reservations ? reservations.filter(reserv => reserv.hour === schedule.id) : [];
                   }
                   this.$refs.table.refresh();
-                });
+                }).catch(() => this.handleErrorMessage("Error cargando las reservas"));
               }
             },
       getAvailablesDates() {
@@ -484,5 +495,8 @@ h4 {
 .py-ag {
   padding: 200px;
 }
-
+@media (max-width: 767px) {
+   .about-bg{padding: 0 0 20px;}
+   .py-ag{padding: 35px;}
+}
 </style>

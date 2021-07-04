@@ -48,7 +48,6 @@ export default {
   methods: {
     ...mapActions(["updateProducto"]),
     actualizar(plan) {
-        console.log(plan)
       const result = this.updateProducto(plan);
       this.resultado(result);
     },

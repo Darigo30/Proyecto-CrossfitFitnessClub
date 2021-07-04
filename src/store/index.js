@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 //import axios from "axios";
 import router from "@/router";
-import agenda from './modules/agenda'
 import { db } from "../../firebase";
 
 Vue.use(Vuex);
@@ -50,6 +49,7 @@ export default new Vuex.Store({
       ClasesSemanales: "",
       imagen: "",
     },
+    mensajeAlerta: "",
   },
   mutations: {
     setupUser(state,user){
@@ -63,12 +63,12 @@ export default new Vuex.Store({
       if(state.actualUser != null){
         state.actualUser.validateAvailableReserveIntoWeekByHiredPlan(payload.dates)
         state.actualUser.addReservation(payload.reservation);
-      }else console.log("No hay usuario logueado");
+      }else throw "No hay usuario logueado";
     },
     deleteUserReservation(state,reservation){
       if(state.actualUser != null){
         state.actualUser.deleteReservation(reservation);
-      }else console.log("No hay usuario logueado");
+      }else throw "No hay usuario logueado";
     },
     cargarDatos(state, payload) {
       state.planes = payload;
@@ -90,18 +90,15 @@ export default new Vuex.Store({
           total,
           clasessemanales,
         };
-        console.log(AddPlan, payload);
         state.carrito.push(AddPlan);
       }else{
         alert("Ya tienes un plan en el carrito")
       }
     },
     btnComprar(state) {
-      if (state.actualUser) {
-        const compraFinal = confirm("¿Quieres comprar ahora?");
-        if (compraFinal) {
+      try{
+        if (state.actualUser) {
           const ventaPlan = state.carrito.map((obj) => {
-            console.log(obj);
             const objvendido = {
               id: obj.id,
               nombre: obj.nombre,
@@ -109,27 +106,24 @@ export default new Vuex.Store({
               cantidadVendida: obj.cantidad,
               clasessemanales : obj.clasessemanales
             };
-            console.log(objvendido, "la venta");
             return objvendido;
           });
           state.actualUser.plan = new Plan(ventaPlan[0].nombre,ventaPlan[0].clasessemanales);
           state.ventas = ventaPlan;
           state.carrito = [];
           state.pagado = true;
+        } else {
+          state.pagado = false;
         }
-      } else {
-        state.pagado = false;
-      }
+    }catch(e){
+      throw "Error al comprar el plan";
+    }
     },
     setLastVisitedPage(state, namePage) {
       state.lastVisitedPage = namePage;
     },
     eliminarCarrito(state) {
       state.carrito = [];
-    },
-    //guardar planes en BD Firebase desde API inicial
-    guardarPlanesDB(state) {
-      console.log(state);
     },
     booleanEditar(state) {
       state.editar = true;
@@ -150,12 +144,15 @@ export default new Vuex.Store({
         (plagin) => plagin.id != payload.id
       );
       state.planes = borradoFila;
-      console.log(borradoFila);
     },
     agregarPlanalState(state, payload) {
       const existePlan = state.planes.find((planadd) => planadd.id === payload.id);
        // Si no existe ingresar a la base de datos.
        if (!existePlan) state.planes.push(payload);
+    },
+    setMsjErrorTabla(state, payload) {
+      state.mensajeAlerta = payload;
+      setTimeout(() => { state.mensajeAlerta = "" } , 5000);
     }
   },
   getters: {
@@ -164,8 +161,6 @@ export default new Vuex.Store({
     },
     getUserById: (state) => (id) => {
       let user = state.users.find(u => u.user === id);
-      console.log("Usuario encontrado")
-      console.log(state.users[0].name);
       return user;
     },
     infoUsers(state){
@@ -188,110 +183,53 @@ export default new Vuex.Store({
     },
     isLogeado(state) {
       return state.actualUser !== null ? true : false;
+    },
+    getmsjTabla(state) {
+      return state.mensajeAlerta;
     }
   },
   actions: {
     async updateUser({ commit },user){
       try{
-        console.log(commit)
       let userDB = User.reverseUser(user);
       await db.collection("usuarios").doc(user.id).set(JSON.parse( JSON.stringify(userDB)));
+      commit('setupUser',user);
       }catch(e){
-        console.error(e);
-        alert("Ocurrió un error mientras se actualizaba el usuario")
+        throw "Error actualizando el usuario";
       }
   },
     async getDataApi({ commit }) {
-      //se saca llamada de api con axios para ocupar el get de firebase
-      // const url =
-      //   "https://us-central1-apis-varias-mias.cloudfunctions.net/planes_crossfit"; //Api G.Fleming
       try {
-        let query = await db
-        .collection("planes")
-        .get();
-        console.log("Lenght de la query: ")
-        console.log(query.docs.length)
-        let PlanesGet =  query.docs.map(doc =>  doc.data());
-        console.log("Lenght dl arreglo mapeado")
-        console.log(PlanesGet)
+        let query = await db.collection("planes").get();
+        let PlanesGet =  query.docs.map(doc =>  {let planSocio = doc.data();planSocio.id = doc.id; return planSocio})
         commit("cargarDatos", PlanesGet);
-        
       } catch (error) {
-        console.log(error);
+        throw "Error cargando los planes desde la API"
       }
-    },
-    async setDataPlanes({ commit }) {
-      commit("guardarPlanesDB");
     },
     async deleteProducto({ commit }, payload) {
       const borrarPlan = payload;
       if (!borrarPlan) return;
-
-      // Eliminar desde Firebase
       try {
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .delete()
-                .then(() => {
-                  console.log("el doc fue borrado");
-                })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al borrar: ", error);
-                });
-            });
-          })
-          .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
-          });
+        await db.collection('planes').doc(borrarPlan.id).delete();
+        commit("borrarProducto", borrarPlan);
       } catch (error) {
-        console.log(error);
+       commit("setMsjErrorTabla", "Error al obtener el documento");
+       return;
       }
-      // Eliminar desde Vuex
-      commit("borrarProducto", borrarPlan);
     },
      //actualizar
      async updateProducto({ commit }, payload) {
       const planEditarF = payload;
+      let updated = true;
       if (!planEditarF) return;
-      // Firebase
       try {
-
-        let collectionRef = db.collection("planes");
-        collectionRef
-          .where("id", "==", payload.id)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              doc.ref
-                .update({
-                  nombrePlan: planEditarF.nombrePlan,
-                  valorMensual: planEditarF.valorMensual,
-                  ClasesSemanales: planEditarF.ClasesSemanales,
-                  imagen: planEditarF.imagen,
-                  id: planEditarF.id,
-                })
-                .then(() => {
-                  console.log("el doc fue actualizado");
-                  commit("actualizarPlanes", payload);
-                  return true;
-                })
-                .catch(function (error) {
-                  console.error("ha ocurrido un error al actualizar: ", error);
-                  return false;
-                });
-            });
-          })
-          .catch(function (error) {
-            console.log("Error al obtener el documento: ", error);
-          });
-      } catch (error) {
-        console.log(error);
+        await db.collection("planes").doc(planEditarF.id).set(JSON.parse( JSON.stringify(planEditarF)));
+        commit("actualizarPlanes", payload);
+      }catch(e){
+        updated = !updated;
       }
+      return updated;
     },
     //Agrego nuevo producto
     async crearNuevoPlan({ commit }, payload) {
@@ -301,8 +239,5 @@ export default new Vuex.Store({
       commit("agregarPlanalState", nuevo);
       await db.collection("planes").add(nuevo);
     },
-  },
-  modules : {
-    agenda
   }
 });

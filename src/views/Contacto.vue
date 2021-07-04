@@ -99,4 +99,7 @@ span {
 .col-8 {
   width: 100%;
 }
+@media (max-width: 767px) {
+   .about-bg{padding: 0 0 20px;}
+}
 </style>

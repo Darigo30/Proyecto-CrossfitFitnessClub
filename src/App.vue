@@ -12,16 +12,20 @@ import { mapActions } from "vuex";
 
 export default {
   name: "Home",
+  data() {
+    return {
+      mostrarMensaje: false
+    }
+  },
   components: {
     Nav,
     Footer,
   },
   methods: {
-    ...mapActions(["getDataApi", "setDataPlanes"]),
+    ...mapActions(["getDataApi"]),
   },
   created() {
     this.getDataApi();
-    this.setDataPlanes();
   },
 };
 </script>

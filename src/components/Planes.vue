@@ -1,5 +1,8 @@
 <template>
-  <b-row>
+<div v-if="planes.length === 0">
+  <div class="alert alert-danger" role="alert">¡Ha ocurrido un error en la consulta!</div>
+</div>
+  <b-row v-else>
     <b-col sm="4" md="4" lg="4" v-for="(objeto, i) in llamadocard" :key="i">
       <div class="card-int-price">
         <div class="inner-box">
@@ -29,11 +32,11 @@
   </b-row>
 </template>
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapMutations ,mapState} from "vuex";
 export default {
   name: "Planes",
   computed: {
-    ...mapGetters(["cardsPlanes"]),
+    ...mapState(['planes']),
     llamadocard() {
       return this.cantidadCards();
     },
@@ -41,9 +44,9 @@ export default {
   methods: {
     cantidadCards() {
       if (this.$props.CantidadMostar == "all") {
-        return this.cardsPlanes;
+        return this.planes;
       } else {
-        return this.cardsPlanes.splice(1, parseInt(this.$props.CantidadMostar));
+        return this.planes.slice(0, parseInt(this.$props.CantidadMostar));
       }
     },
     ...mapMutations(["agregarPlan"]),
@@ -137,8 +140,11 @@ export default {
 }
 .image img {
   position: relative;
-  max-width: 270px;
-  height: 200px;
+  max-width: 340px;
+  height: auto;
+}
+.card-int-price {
+    margin-bottom: 20px;
 }
 .btn-agregar {
   background: #001e3c;

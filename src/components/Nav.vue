@@ -30,11 +30,9 @@
         </div>
       </div>
     </div>
-    <nav class="navbar navbar-expand-lg text-white">
+    <b-navbar toggleable="lg" class="text-white">
       <div class="container-fluid cont-nav">
-        <router-link class="navbar-brand" to="/"
-          ><img class="logo" src="../assets/logo.png" alt="Logo Crossfit"
-        /></router-link>
+        <router-link class="navbar-brand" to="/"><img class="logo" src="../assets/logo.png" alt="Logo Crossfit"/></router-link>
         <b-navbar-toggle target="navbar-toggle-collapse">
           <template #default="{ expanded }">
             <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
@@ -43,79 +41,73 @@
         </b-navbar-toggle>
 
         <b-collapse id="navbar-toggle-collapse" is-nav>
-          <b-navbar-nav>
-            <div class="d-flex">
-              <ul
-                class="
-                  navbar-nav
-                  me-auto
-                  mb-2 mb-lg-0
-                  text-uppercase text-white
-                "
-              >
-                <li class="nav-item">
-                  <router-link class="nav-link active" to="/"
-                    >Inicio</router-link
+          <b-navbar-nav class="ml-auto">
+              <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-uppercase text-white">
+                  <li class="nav-item">
+                    <router-link class="nav-link active" to="/"
+                      >Inicio</router-link
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <router-link class="nav-link" to="/acercade"
+                      >Acerca de</router-link
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <router-link class="nav-link" to="/contacto"
+                      >Contacto</router-link
+                    >
+                  </li>
+                  <li class="nav-item" v-if="actualUser && actualUser.role === 'admin'">
+                    <router-link class="nav-link agend" to="/agendar"
+                      >Admin</router-link
+                    >
+                  </li>
+                  <li class="nav-item" v-else>
+                    <router-link class="nav-link agend" to="/agendar"
+                      >Agenda Clases</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="text-right p-0 nobile-position">
+                <div class="shopping-bag">
+                  <div
+                    @click="$router.push('/carrito')"
+                    class="nav-link cart"
+                    to="/carrito"
                   >
-                </li>
-                <li class="nav-item">
-                  <router-link class="nav-link" to="/acercade"
-                    >Acerca de</router-link
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cantcarri">{{ cantidadCarrito }}</span>
+                  </div>
+                </div>
+                <div class="icono-login" v-if="!isLogeado">
+                  <router-link class="log" to="/login">
+                    <i class="fas fa-user-alt"></i>
+                  </router-link>
+                </div>
+                <div class="icono-login" v-else>
+                  <b-dropdown
+                    id="dropdown-1"
+                    text="Cerrar Sesión"
+                    class="m-md-2 btn-drop"
                   >
-                </li>
-                <li class="nav-item">
-                  <router-link class="nav-link" to="/contacto"
-                    >Contacto</router-link
-                  >
-                </li>
-                <li class="nav-item" v-if="actualUser && actualUser.role === 'admin'">
-                  <router-link class="nav-link agend" to="/agendar"
-                    >Admin</router-link
-                  >
-                </li>
-                <li class="nav-item" v-else>
-                  <router-link class="nav-link agend" to="/agendar"
-                    >Agenda Clases</router-link
-                  >
-                </li>
-              </ul>
-            </div>
-            <div class="text-right p-0 nobile-position">
-              <div class="shopping-bag">
-                <div
-                  @click="$router.push('/carrito')"
-                  class="cart"
-                  to="/carrito"
-                >
-                  <i class="fas fa-shopping-bag"></i>
-                  <span class="cantcarri">{{ cantidadCarrito }}</span>
+                    <b-dropdown-item @click="cerrarSesion()"
+                      >Salir</b-dropdown-item
+                    >
+                  </b-dropdown>
+                </div>
+
+                <div class="become-member">
+                  <router-link to="/socio" class="">Quiero ser Socio</router-link>
                 </div>
               </div>
-              <div class="icono-login" v-if="!isLogeado">
-                <router-link class="log" to="/login">
-                  <i class="fas fa-user-alt"></i>
-                </router-link>
-              </div>
-              <div class="icono-login" v-else>
-                <b-dropdown
-                  id="dropdown-1"
-                  text="Cerrar Sesión"
-                  class="m-md-2 btn-drop"
-                >
-                  <b-dropdown-item @click="cerrarSesion()"
-                    >Salir</b-dropdown-item
-                  >
-                </b-dropdown>
-              </div>
-
-              <div class="become-member">
-                <router-link to="/socio">Quiero ser Socio</router-link>
-              </div>
-            </div>
           </b-navbar-nav>
         </b-collapse>
       </div>
-    </nav>
+    </b-navbar>
+
   </div>
 </template>
 
@@ -134,6 +126,16 @@ export default {
 </script>
 
 <style scoped>
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(255, 255, 255);
+    padding: 15px;
+}
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .nav-link.active {
+    color: rgb(255, 255, 255);
+}
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+    color: rgb(255, 255, 255);
+}
 .cont-nav {
   padding-right: 0;
 }
@@ -153,10 +155,7 @@ export default {
   padding: 12px;
   border-radius: 0px;
 }
-.navbar-expand-lg .navbar-collapse {
-  display: flex;
-  justify-content: space-between;
-}
+
 .shopping-bag {
   display: inline-block;
   padding: 0 12px;
@@ -328,6 +327,10 @@ export default {
   .b-icon.bi {
     color: #f30b47;
   }
+  .navbar-light .navbar-nav .nav-link{
+    padding: 5px;
+    font-size: 12px;
+  }
 }
 @media (max-width: 991px) {
   .header {
@@ -360,4 +363,5 @@ export default {
     display: none;
   }
 }
+
 </style>
